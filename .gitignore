@@ -1,0 +1,4 @@
+.vscode
+.DS_Store
+vespa-http-client-jar-with-dependencies.jar
+*.gz

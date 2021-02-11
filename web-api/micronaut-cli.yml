@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: web.api
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: gradle_kotlin
+features: [app-name, gradle, http-client, jib, junit, kotlin, kotlin-application, logback, netty-server, readme, shade, yaml]

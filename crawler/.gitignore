@@ -1,0 +1,11 @@
+.scrapy
+RISJbot/aws_credentials.py
+RISJbot/splash_credentials.py
+*.egg-info/
+build/*
+**/*.pyc
+RISJbot/spiders/local/*.py
+scrapinghub.yml
+*.swp
+.vscode
+aunews-scrape

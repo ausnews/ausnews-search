@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scrapy-deployment
+  labels:
+    app: scrapy-news
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scrapy-news
+  template:
+    metadata:
+      labels:
+        app: scrapy-news
+    spec:
+      containers:
+      - name: scrapy-news
+        image: gcr.io/GOOGLE_PROJECT_ID/aunews-scrapy:latest
+        imagePullPolicy: Always
+        resources:
+            requests:
+              memory: "2G"
+            limits:
+              memory: "2G"
+#      nodeSelector:
+#        cloud.google.com/gke-nodepool: non-vespa

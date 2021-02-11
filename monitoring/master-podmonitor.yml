@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: vespa-app
+  labels:
+    app: vespa-monitor
+spec:
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      app: vespa
+  podMetricsEndpoints:
+    - port: web
+      path: '/prometheus/v1/values'

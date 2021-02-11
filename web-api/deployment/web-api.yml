@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ausnews-web-api
+  labels:
+    app: ausnews-web-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ausnews-web-api
+  template:
+    metadata:
+      labels:
+        app: ausnews-web-api
+    spec:
+      containers:
+        - name: ausnews-web-api
+          image: gcr.io/GOOGLE_PROJECT_ID/ausnews-web-api:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "2G"
+            limits:
+              memory: "2G"
+#      nodeSelector:
+#        cloud.google.com/gke-nodepool: non-vespa

@@ -1,0 +1,19 @@
+package web.api.test
+import io.micronaut.runtime.EmbeddedApplication
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import javax.inject.Inject
+
+@MicronautTest
+class WebApiTestTest {
+
+    @Inject
+    lateinit var application: EmbeddedApplication<*>
+
+    @Test
+    fun testItWorks() {
+        Assertions.assertTrue(application.isRunning)
+    }
+
+}

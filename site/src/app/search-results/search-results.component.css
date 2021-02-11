@@ -1,0 +1,32 @@
+.spacer {
+    flex: 1 1 auto;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+.mat-card-content {
+  margin: 0 16px;
+}
+
+::ng-deep .mat-card-header-text {
+  width: 100% !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.mat-stroked-button {
+  font-size: 16px;
+}
+
+.mat-stroked-button {
+  white-space: pre-wrap !important;
+  text-align: left;
+}

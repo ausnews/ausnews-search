@@ -1,0 +1,14 @@
+micronaut:
+  server:
+    port: 8090
+    cors:
+      enabled: true
+      single-header: true
+      configurations:
+        dev:
+          allowedOrigins:
+            - ".*"
+  application:
+    name: webApi
+vespa:
+  url: http://localhost:8080

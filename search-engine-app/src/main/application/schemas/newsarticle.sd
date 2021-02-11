@@ -1,0 +1,77 @@
+schema newsarticle {
+    document newsarticle {
+        field headline type string {
+            indexing: index | summary
+            index: enable-bm25
+            stemming: best
+        }
+        field url type string {
+            indexing: summary
+        }
+        field keywords type array<string> {
+            indexing: summary
+        }
+        field firstpubtime type long {
+            indexing: attribute | summary
+        }
+        field modtime type long {
+            indexing: summary
+        }
+        field sentiment type float {
+            indexing: summary
+        }
+        field subjectivity type float {
+            indexing: summary
+        }
+        field wordcount type long {
+            indexing: summary
+        }
+        field bodytext type string {
+            indexing: index | summary
+            index: enable-bm25
+            summary: dynamic
+            stemming: best
+        }
+        field abstract type string {
+            indexing: summary
+        }
+        field author type string {
+            indexing:  summary
+        }
+        field bylines type array<string> {
+            indexing:  index | summary
+        }
+        field source type string {
+            indexing:  index | summary | attribute
+        }
+        field section type string {
+            indexing:  summary
+        }
+    }
+
+    fieldset default {
+        fields: headline, bodytext
+    }
+
+    rank-profile default {
+        first-phase {
+            expression: nativeRank(headline, bodytext)
+        }
+    }
+
+    rank-profile bm25 inherits default {
+        first-phase {
+            expression: bm25(headline) + bm25(bodytext)
+        }
+    }
+
+    rank-profile bm25_freshness inherits default {
+        first-phase {
+            expression: bm25(headline) + bm25(bodytext) + freshness(firstpubtime).logscale
+        }
+        rank-properties {
+            freshness(firstpubtime).halfResponse: 172800
+        }
+    }
+
+}

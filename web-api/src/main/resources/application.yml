@@ -1,0 +1,10 @@
+micronaut:
+  server:
+    port: 8080
+    cors:
+      enabled: true
+      single-header: true
+  application:
+    name: webApi
+vespa:
+  url: http://vespa-search:8080

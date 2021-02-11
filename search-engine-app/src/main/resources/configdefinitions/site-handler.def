@@ -1,0 +1,4 @@
+package=org.ausnews.search
+
+vespaHostName string
+vespaHostPort int

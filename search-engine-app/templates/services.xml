@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Copyright 2019 Oath Inc. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root. -->
+
+<services version="1.0">
+    <admin version='2.0'>
+        <adminserver hostalias="admin0"/>
+        <configservers>
+            <configserver hostalias="admin0"/>
+        </configservers>
+    </admin>
+
+    <container id="text_search" version="1.0">
+        <document-api/>
+        <search>
+            <!-- Config for bolding in search result snippets -->
+            <config name="container.qr-searchers">
+                <tag>
+                    <bold>
+                        <open>&lt;strong&gt;</open>
+                        <close>&lt;/strong&gt;</close>
+                    </bold>
+                    <separator>...</separator>
+                </tag>
+            </config>
+
+        </search>
+        <document-processing/>
+
+        <!-- <component id="com.yahoo.language.simple.SimpleLinguistics"/> -->
+
+        <nodes jvmargs="-Xms512m -Xmx512m">
+            CONTAINER
+        </nodes>
+
+    </container>
+
+    <content id="newsarticle" version="1.0">
+
+        <!-- Config for search result snippets -->
+        <config name="vespa.config.search.summary.juniperrc">
+            <max_matches>2</max_matches>
+            <length>1000</length>
+            <surround_max>500</surround_max>
+            <min_length>300</min_length>
+        </config>
+
+        <redundancy reply-after='1'>1</redundancy>
+        <documents>
+            <document type='newsarticle' mode="index"/>
+            <document-processing cluster="text_search"/>
+        </documents>
+        <nodes>
+            CONTENT
+        </nodes>
+    </content>
+
+</services>

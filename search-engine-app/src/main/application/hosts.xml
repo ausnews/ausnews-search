@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hosts>
+  <host name='vespa-0.vespa-internal.default.svc.cluster.local'><alias>admin0</alias><alias>container0</alias><alias>content0</alias></host>
+  <host name='vespa-content-0.vespa-internal.default.svc.cluster.local'><alias>content1</alias></host>
+  <host name='vespa-container-0.vespa-internal.default.svc.cluster.local'><alias>container1</alias></host>
+  <host name='vespa-container-1.vespa-internal.default.svc.cluster.local'><alias>container2</alias></host>
+</hosts>

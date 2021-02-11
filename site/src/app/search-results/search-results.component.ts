@@ -1,0 +1,82 @@
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { from, pipe } from 'rxjs';
+import { NewsSearchApiService } from '../news-search-api.service'
+import { startWith, delay } from "rxjs/operators";
+
+@Component({
+  selector: 'app-search-results',
+  templateUrl: './search-results.component.html',
+  styleUrls: ['./search-results.component.css']
+})
+export class SearchResultsComponent implements OnInit {
+  mArticles: Array<any>;
+  mSources: Map<String, number> = new Map<String, number>();
+  selectedSources: any;
+  queryParams: any;
+
+  constructor(private router: Router, private route: ActivatedRoute, private searchApi: NewsSearchApiService) {}
+
+  search(query, bylines, source, start = null, end = null, sources = null) {
+    this.searchApi.getSearchResults(query, bylines, source, start, end, sources).subscribe(data => { 
+      const allData = data as Array<any>;
+      const groupData = allData.filter(i => { return i.id.startsWith("group:root") });
+      this.mArticles = allData.filter(result => {
+        return result.id.startsWith("id:newsarticle");
+      });
+      const test = new Map<String, number>();
+      if (this.mSources == null || this.mSources.size <= 1) {
+        this.mSources.clear();
+        this.selectedSources = null;
+        groupData[0].children.children.forEach(item => {
+          test.set(item.value, item.fields["count()"]);
+        });
+        this.mSources = test;
+      }
+    });
+  }
+
+  related(id: String) {
+    this.searchApi.getRelated(id).subscribe(data => {
+      const allData = data as Array<any>;
+      const groupData = allData.filter(i => { return i.id.startsWith("group:root") });
+      this.mArticles = allData.filter(result => {
+        return result.id.startsWith("id:newsarticle");
+      });
+      this.mSources.clear();
+    });
+  }
+
+  selectedSearch() {
+    let queryParams = Object.assign([], this.route.snapshot.queryParams);
+    queryParams.sources = JSON.stringify(this.selectedSources);
+    const navigationExtras: NavigationExtras = {
+      queryParams
+    };
+    this.router.navigate(['/search'], navigationExtras);
+  }
+
+  doSearch(queryParams) {
+    if (queryParams['r'] && queryParams['e']) {
+      var end = new Date(+queryParams['e']);
+      end.setHours(23, 59, 59);
+      var start = new Date(+queryParams['r']);
+      start.setHours(0, 0, 0);
+      this.search(queryParams['q'], queryParams['b'], queryParams['s'], start, end, queryParams['sources']);
+    } else {
+      this.search(queryParams['q'], queryParams['b'], queryParams['s'], null, null, queryParams['sources']);
+    }
+  }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(queryParams => {
+      this.queryParams = queryParams;
+      if (queryParams['id'] != null) {
+        this.related(queryParams['id']);
+      } else {
+        this.doSearch(queryParams);
+      }
+    });
+  }
+
+}
