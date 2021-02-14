@@ -7,7 +7,7 @@ plugins {
     id("com.google.cloud.tools.jib") version "2.6.0"
 }
 
-version = "0.1"
+version = "0.2"
 group = "web.api"
 
 val kotlinVersion=project.properties.get("kotlinVersion")
@@ -60,7 +60,7 @@ tasks {
 
     jib {
         to {
-            image = "gcr.io/GOOGLE_PROJECT_ID/ausnews-web-api"
+            image = "ausnews-web-api"
         }
     }
 }

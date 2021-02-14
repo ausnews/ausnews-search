@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ausnews-web-api
-          image: gcr.io/GOOGLE_PROJECT_ID/ausnews-web-api:latest
+          image: ausnews-web-api
           imagePullPolicy: Always
           resources:
             requests:
