@@ -41,6 +41,5 @@ jobs:
     # Build the Docker image
     - name: Build & Deploy
       run: |-
-        cd search-engine-app
         ./scripts/bootstrap.sh
         ./scripts/deploy.sh
