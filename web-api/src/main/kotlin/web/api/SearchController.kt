@@ -10,7 +10,7 @@ import javax.naming.directory.SearchResult
 @ExecuteOn(TaskExecutors.IO)
 class SearchController(private val searchClient: SearchClient) {
     @Get("/search{?q,h,b,s,r,e,source*}")
-    fun search(q: String?, h: Int?, b: String?, s: String?, r: String?, e: String?, source: List<String>?): Array<SearchResultElement> {
+    fun search(q: String?, h: Int?, b: String?, s: String?, r: String?, e: String?, source: List<String>?): Result {
         var yql = "select * from sources newsarticle where userInput(@q)"
         b?.let {
             yql += " AND bylines contains @b "
@@ -32,17 +32,24 @@ class SearchController(private val searchClient: SearchClient) {
         }
         yql += ";"
         var hits = h ?: 25
-        try {
-            return q?.let { searchClient.search(yql, q, b, s, "default", "bm25_freshness", hits, r, e).root.children }
-                ?: arrayOf<SearchResultElement>()
+        return try {
+            q?.let {
+                val r = searchClient.search(yql, q, b, s, "default", "bm25_freshness", hits, r, e)
+                Result(r.timing, r.root.children)
+            } ?: Result(null, arrayOf<SearchResultElement>())
         } catch (e: Exception) {
-            return arrayOf<SearchResultElement>()
+            Result(null, arrayOf<SearchResultElement>())
         }
     }
 
     @Get("/search/related{?id}")
-    fun getRelated(id: String?): Array<SearchResultElement> {
+    fun getRelated(id: String?): Result {
         println("Searching related: $id")
-        return id?.let { searchClient.related(id).root.children } ?: arrayOf<SearchResultElement>();
+        return id?.let {
+            val r = searchClient.related(id)
+            Result(r.timing, r.root.children)
+        } ?: Result(null, arrayOf<SearchResultElement>())
     }
 }
+
+data class Result(val timing: Map<String, Any>?, val results: Array<SearchResultElement>?)

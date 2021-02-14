@@ -8,6 +8,7 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" fxFlex="60" fxFlex.lt-md="100%">
         <div fxLayout="column" fxLayoutAlign="space-between center">
+            <div *ngIf="timing">{{ timing.searchtime * 1000 | number:'1.0-0' }}ms</div>
             <mat-card class="card" *ngFor="let article of mArticles">
                 <mat-card-header>
                     <mat-card-title>

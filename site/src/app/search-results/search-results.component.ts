@@ -12,6 +12,7 @@ import { startWith, delay } from "rxjs/operators";
 export class SearchResultsComponent implements OnInit {
   mArticles: Array<any>;
   mSources: Map<String, number> = new Map<String, number>();
+  timing: any;
   selectedSources: any;
   queryParams: any;
 
@@ -20,8 +21,9 @@ export class SearchResultsComponent implements OnInit {
   search(query, bylines, source, start = null, end = null, sources = null) {
     this.searchApi.getSearchResults(query, bylines, source, start, end, sources).subscribe(data => { 
       const allData = data as Array<any>;
-      const groupData = allData.filter(i => { return i.id.startsWith("group:root") });
-      this.mArticles = allData.filter(result => {
+      this.timing = allData["timing"];
+      const groupData = allData["results"].filter(i => { return i.id.startsWith("group:root") });
+      this.mArticles = allData["results"].filter(result => {
         return result.id.startsWith("id:newsarticle");
       });
       const test = new Map<String, number>();
@@ -39,8 +41,9 @@ export class SearchResultsComponent implements OnInit {
   related(id: String) {
     this.searchApi.getRelated(id).subscribe(data => {
       const allData = data as Array<any>;
-      const groupData = allData.filter(i => { return i.id.startsWith("group:root") });
-      this.mArticles = allData.filter(result => {
+      this.timing = allData["timing"];
+      const groupData = allData["results"].filter(i => { return i.id.startsWith("group:root") });
+      this.mArticles = allData["results"].filter(result => {
         return result.id.startsWith("id:newsarticle");
       });
       this.mSources.clear();

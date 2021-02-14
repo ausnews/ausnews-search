@@ -20,15 +20,17 @@ interface SearchClient {
         @QueryValue hits: Int = 100,
         @QueryValue r: String?,
         @QueryValue e: String?,
+        @QueryValue("presentation.timing") timing: String = "true",
         @QueryValue select: String = "all(all(group(source) order(-count()) each(output(count()))))"
     ): SearchResponse
 
     @Get("/search/")
     public fun related(@QueryValue id: String,
-        @QueryValue searchChain: String = "related"): SearchResponse
+                       @QueryValue("presentation.timing") timing: String = "true",
+                       @QueryValue searchChain: String = "related"): SearchResponse
 }
 
-data class SearchResponse(val root: SearchRootElement) {}
+data class SearchResponse(val root: SearchRootElement, val timing: Map<String, Any>) {}
 
 data class SearchRootElement(val id: String, val relevance: Int, val children: Array<SearchResultElement>?) { }
 
