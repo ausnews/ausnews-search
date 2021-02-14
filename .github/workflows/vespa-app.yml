@@ -1,6 +1,7 @@
 name: Build and update the vespa app
 
 on:
+  workflow_dispatch:
   push:
     paths:
     - 'search-engine-app/**'
