@@ -13,7 +13,8 @@ env:
 
 defaults:
   run:
-    working-directory: search-engine-app
+    shell: bash
+    working-directory: ./search-engine-app
 
 jobs:
   setup-build-publish-deploy:
