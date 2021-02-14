@@ -12,6 +12,9 @@
     <container id="text_search" version="1.0">
         <document-api/>
         <search>
+            <chain id="related" inherits="vespa">
+                <searcher id="org.ausnews.search.searcher.RelatedArticlesSearcher" bundle="ausnews-search"/>
+            </chain>
             <!-- Config for bolding in search result snippets -->
             <config name="container.qr-searchers">
                 <tag>
