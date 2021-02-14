@@ -1,10 +1,14 @@
+![Build and update the search engine app](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20update%20the%20vespa%20app/badge.svg)
+
 # AUSNews Search
 
+As deployed to https://www.ausnews.org
+
 AUSNews search is a high performance, open-source search engine indexing some Australian news sites. It consists of 4 components:
-- Search engine. This is a [Vespa](https://vespa.ai) application. Great for scale, great for machine learned ranking. It supports live resizing of content nodes, live updates to search definitions and the application itself without any downtime. See the [search-engine-app](./search-engine-app/) directory.
-- Spiders. Like it says on the tin, these crawl news websites and feeds into the search engine for processing and storage. This component utilises [Scrapy](scrapy.org) (python), inherited RISJbot for news article scraping with custom spiders for Australian content
+- [Search engine app](./search-engine-app/). This is a [Vespa](https://vespa.ai) application. Great for scale, great for machine learned ranking. It supports live resizing of content nodes, live updates to search definitions and the application itself without any downtime.
+- [Spiders](./crawler/). Like it says on the tin, these crawl news websites and feeds into the search engine for processing and storage. This component utilises [Scrapy](scrapy.org) (python), inherited RISJbot for news article scraping with custom spiders for Australian content
 - Search [web-api](./web-api/). This is a (currently) simple user-facing API that interacts with and abstracts the vespa application backend. A simple micronaut/kotlin application.
-- Frontend [site](./site/). A [Material Angular](https://material.angular.io) application for the browser UI.
+- [Frontend site](./site/). A [Material Angular](https://material.angular.io) application for the browser UI.
 - Infrastructure: Spiders, Search and Web API are all deployed to GKE. Each folder has a subfolder deployment/ containing kubernetes yaml. Github workflows run per-directory to re-deploy each component when pull-requests to master are merged (TODO). The site can be run locally or on any static hosting service.
 Technologies:
 
