@@ -11,6 +11,10 @@ env:
   GKE_CLUSTER: vespa
   GKE_ZONE: australia-southeast1-c
 
+defaults:
+  run:
+    working-directory: search-engine-app
+
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
@@ -35,7 +39,6 @@ jobs:
 
     # Build the Docker image
     - name: Build & Deploy
-      working-directory: ./search-engine-app
       run: |-
         ./scripts/bootstrap.sh
         ./scripts/deploy.sh
