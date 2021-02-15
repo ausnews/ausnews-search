@@ -1,4 +1,5 @@
 ![Build and update the search engine app](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20update%20the%20vespa%20app/badge.svg)
+![Build and update Web API](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20update%20Web%20API/badge.svg)
 
 # AUSNews Search
 
