@@ -15,6 +15,7 @@ export class SearchResultsComponent implements OnInit {
   timing: any;
   selectedSources: any;
   queryParams: any;
+  static clearSources = true;
 
   constructor(private router: Router, private route: ActivatedRoute, private searchApi: NewsSearchApiService) {}
 
@@ -27,13 +28,15 @@ export class SearchResultsComponent implements OnInit {
         return result.id.startsWith("id:newsarticle");
       });
       const test = new Map<string, number>();
-      if (this.mSources == null || this.mSources.size <= 1) {
+      if (SearchResultsComponent.clearSources) {
         this.mSources.clear();
         this.selectedSources = null;
         groupData[0].children.children.forEach(item => {
           test.set(item.value, item.fields["count()"]);
         });
         this.mSources = test;
+      } else {
+        SearchResultsComponent.clearSources = true;
       }
     });
   }
@@ -56,6 +59,7 @@ export class SearchResultsComponent implements OnInit {
     const navigationExtras: NavigationExtras = {
       queryParams
     };
+    SearchResultsComponent.clearSources = false;
     this.router.navigate(['/search'], navigationExtras);
   }
 
