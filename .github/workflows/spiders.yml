@@ -70,4 +70,3 @@ jobs:
         ./kustomize edit set image aunews-scrapy=gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
-        kubectl get services -o wide
