@@ -1,4 +1,4 @@
-name: Build and update the vespa app
+name: Build and deploy the search engine
 
 on:
   workflow_dispatch:

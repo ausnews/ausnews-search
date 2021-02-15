@@ -1,4 +1,4 @@
-name: Build and update Web API
+name: Build and deploy the Web API
 
 on:
   workflow_dispatch:
