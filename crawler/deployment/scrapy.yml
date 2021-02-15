@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: scrapy-news
-        image: gcr.io/GOOGLE_PROJECT_ID/aunews-scrapy:latest
+        image: aunews-scrapy
         imagePullPolicy: Always
         resources:
             requests:
