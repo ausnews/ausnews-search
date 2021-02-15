@@ -1,5 +1,4 @@
 from itemadapter import ItemAdapter
-import requests
 import hashlib
 from vespa.application import Vespa
 import logging
@@ -9,7 +8,6 @@ logger = logging.getLogger(__name__)
 class VespaWrite:
     def open_spider(self, spider):
         self.vespa = Vespa(url = "http://vespa-search", port = 8080)
-        s = requests.Session()
     
     def process_item(self, item, spider):
         if not ('bodytext' in item):
@@ -28,6 +26,8 @@ class VespaWrite:
             vespa_fields['keywords'] = item['keywords']
         if ('bylines' in item):
             vespa_fields['bylines'] = item['bylines']
+        if ('section' in item):
+            vespa_fields['section'] = item['section']
         vespa_fields['source'] = item['source']
 
         response = self.vespa.feed_data_point(
