@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { from, pipe } from 'rxjs';
-import { NewsSearchApiService } from '../news-search-api.service'
-import { startWith, delay } from "rxjs/operators";
+import { NewsSearchApiService } from '../news-search-api.service';
+import { startWith, delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-results',
@@ -11,7 +11,7 @@ import { startWith, delay } from "rxjs/operators";
 })
 export class SearchResultsComponent implements OnInit {
   mArticles: Array<any>;
-  mSources: Map<String, number> = new Map<String, number>();
+  mSources: Map<string, number> = new Map<string, number>();
   timing: any;
   selectedSources: any;
   queryParams: any;
@@ -26,7 +26,7 @@ export class SearchResultsComponent implements OnInit {
       this.mArticles = allData["results"].filter(result => {
         return result.id.startsWith("id:newsarticle");
       });
-      const test = new Map<String, number>();
+      const test = new Map<string, number>();
       if (this.mSources == null || this.mSources.size <= 1) {
         this.mSources.clear();
         this.selectedSources = null;
