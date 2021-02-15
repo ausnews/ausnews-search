@@ -16,7 +16,8 @@ class VespaWrite:
         vespa_fields['url'] = item['url']
         vespa_fields['bodytext'] = item['bodytext']
         vespa_fields['firstpubtime'] = item['firstpubtime']
-        vespa_fields['modtime'] = item['modtime']
+        if ('modtime' in item):
+            vespa_fields['modtime'] = item['modtime']
         vespa_fields['wordcount'] = item['wordcount']
         vespa_fields['headline'] = item['headline']
         vespa_fields['sentiment'] = item['sentiment']
