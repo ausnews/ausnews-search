@@ -67,7 +67,7 @@ schema newsarticle {
 
     rank-profile bm25_freshness inherits default {
         first-phase {
-            expression: bm25(headline) + bm25(bodytext) + freshness(firstpubtime).logscale
+            expression: bm25(headline) + bm25(bodytext) + freshness(firstpubtime).logscale * 2
         }
         rank-properties {
             freshness(firstpubtime).halfResponse: 172800
