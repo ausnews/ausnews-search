@@ -6,6 +6,11 @@ on:
     paths:
     - 'site/**'
 
+defaults:
+  run:
+    shell: bash
+    working-directory: ./site
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
