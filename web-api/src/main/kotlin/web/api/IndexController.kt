@@ -7,6 +7,6 @@ import io.micronaut.http.annotation.Get
 class IndexController {
     @Get("/")
     fun index(): String {
-        return "Hi there"
+        return "Hi there health check"
     }
 }
