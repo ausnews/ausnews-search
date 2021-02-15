@@ -1,4 +1,4 @@
-name: Build and update the vespa app
+name: Build and update Web API
 
 on:
   workflow_dispatch:
@@ -20,7 +20,7 @@ defaults:
 
 jobs:
   setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
+    name: Setup, Build, Publish, and Deploy Web API
     runs-on: ubuntu-latest
     steps:
 
