@@ -1,6 +1,7 @@
 ![Build and deploy the search engine](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20the%20search%20engine/badge.svg)<br/>
 ![Build and deploy the Web API](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20the%20Web%20API/badge.svg)<br/>
-![Build and deploy site on www.ausnews.org](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20site%20on%20www.ausnews.org/badge.svg)
+![Build and deploy site on www.ausnews.org](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20site%20on%20www.ausnews.org/badge.svg)<br/>
+![Build and deploy spiders](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20spiders/badge.svg)
 
 # AUSNews Search
 
