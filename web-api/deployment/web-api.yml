@@ -20,8 +20,8 @@ spec:
           imagePullPolicy: Always
           resources:
             requests:
-              memory: "2G"
+              memory: "600Mi"
             limits:
-              memory: "2G"
+              memory: "600Mi"
 #      nodeSelector:
 #        cloud.google.com/gke-nodepool: non-vespa
