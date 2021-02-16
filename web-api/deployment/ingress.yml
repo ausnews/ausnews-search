@@ -6,6 +6,17 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: vespa-web
     networking.gke.io/managed-certificates: vespa-web
 spec:
-  backend:
-    serviceName: web-api-service
-    servicePort: 80
+  rules:
+  - host: search.ausnews.org
+    http:
+      paths:
+      - backend:
+          serviceName: web-api-service
+          servicePort: 80
+  - host: monitoring.ausnews.org
+    http:
+      paths:
+      - backend:
+          serviceName: monitoring-service 
+          servicePort: 80
+

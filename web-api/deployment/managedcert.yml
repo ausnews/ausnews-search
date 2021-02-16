@@ -5,3 +5,4 @@ metadata:
 spec:
   domains:
     - search.ausnews.org
+    - monitoring.ausnews.org
