@@ -2,6 +2,7 @@ from itemadapter import ItemAdapter
 import hashlib
 import logging
 import tweepy
+from vespa.application import Vespa
 
 logger = logging.getLogger(__name__)
 
@@ -16,18 +17,27 @@ class TwitterRelevance:
         auth = tweepy.OAuthHandler(self.api_key, self.api_secret)
         auth.set_access_token(self.access_token, self.access_token_secret)
         self.api = tweepy.API(auth)
+        self.vespa = Vespa(url = "http://vespa-search", port = 8080)
 
     def process_item(self, item, spider):
         try:
             url = item['url']
             user = self.get_twitter_user(url)
             results = self.api.search(url + " from:" + user)
+
             if len(results) > 0:
-                item['twitter_favourite_count'] = results[0].favorite_count
-                item['twitter_retweet_count'] = results[0].retweet_count
+                vespa_fields = { }
+                vespa_fields['twitter_favourite_count'] = results[0].favorite_count
+                vespa_fields['twitter_retweet_count'] = results[0].retweet_count
+                response = self.vespa.update_data(
+                    schema = "newsarticle",
+                    data_id = hashlib.sha256(item['url'].encode()).hexdigest(),
+                    fields = vespa_fields
+                )
+            return item
         except:
-            logger.error("Failed twitter")
-        return item
+            logger.critical("Failed twitter")
+            return item
 
     def get_twitter_user(self, url):
         if url.startswith("https://www.abc.net.au"):
