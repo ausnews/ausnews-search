@@ -43,6 +43,7 @@ jobs:
     # Configure docker to use the gcloud command-line tool as a credential helper
     - run: |-
         gcloud --quiet auth configure-docker
+        echo "/usr/bin" >> $GITHUB_PATH
 
     # Get the GKE credentials so we can deploy to the cluster
     - uses: google-github-actions/get-gke-credentials@v0.2.1
@@ -59,6 +60,7 @@ jobs:
         sed -i "s/TWITTER_BEARER_TOKEN/$TWITTER_BEARER_TOKEN/g"  ./RISJbot/pipelines/twitterstats.py
         sed -i "s/TWITTER_ACCESS_TOKEN_SECRET/$TWITTER_ACCESS_TOKEN_SECRET/g"  ./RISJbot/pipelines/twitterstats.py
         sed -i "s/TWITTER_ACCESS_TOKEN/$TWITTER_ACCESS_TOKEN/g"  ./RISJbot/pipelines/twitterstats.py
+        echo "$PATH"
         docker build -t gcr.io/"$PROJECT_ID"/"$IMAGE":"$GITHUB_SHA" \
           --build-arg env=production \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
