@@ -22,7 +22,10 @@ interface SearchClient {
         @QueryValue e: String?,
         @QueryValue("presentation.timing") timing: String = "true",
         @QueryValue select: String = "all(all(group(source) order(-count()) each(output(count()))))",
-        @QueryValue twitter
+        @QueryValue twitterWeight: Float?,
+        @QueryValue twitterRetweetWeight: Float?,
+        @QueryValue twitterFavouriteWeight: Float?,
+        @QueryValue freshnessWeight: Float?
     ): SearchResponse
 
     @Get("/search/")

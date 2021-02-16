@@ -9,8 +9,9 @@ import javax.naming.directory.SearchResult
 @Controller
 @ExecuteOn(TaskExecutors.IO)
 class SearchController(private val searchClient: SearchClient) {
-    @Get("/search{?q,h,b,s,r,e,source*,ranking}")
-    fun search(q: String?, h: Int?, b: String?, s: String?, r: String?, e: String?, source: List<String>?, ranking: String?): Result {
+    @Get("/search{?q,h,b,s,r,e,source*,ranking,twitterWeight,twitterFavouriteWeight,twitterRetweetWeight}")
+    fun search(q: String?, h: Int?, b: String?, s: String?, r: String?, e: String?, source: List<String>?, ranking: String?,
+                twitterWeight: Float?, twitterFavouriteWeight: Float?, twitterRetweetWeight: Float?, freshnessWeight: Float?): Result {
         var yql = "select * from sources newsarticle where userInput(@q)"
         b?.let {
             yql += " AND bylines contains @b "
@@ -34,7 +35,8 @@ class SearchController(private val searchClient: SearchClient) {
         var hits = h ?: 25
         return try {
             q?.let {
-                val r = searchClient.search(yql, q, b, s, "default", ranking ?: "bm25_freshness", hits, r, e)
+                val r = searchClient.search(yql, q, b, s, "default", ranking ?: "bm25_freshness", hits, r, e, twitterWeight = twitterWeight,
+                    twitterFavouriteWeight = twitterWeight, twitterRetweetWeight = twitterRetweetWeight, freshnessWeight = freshnessWeight)
                 Result(r.timing, r.root.children)
             } ?: Result(null, arrayOf<SearchResultElement>())
         } catch (e: Exception) {
