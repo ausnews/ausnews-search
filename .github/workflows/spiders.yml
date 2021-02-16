@@ -57,8 +57,8 @@ jobs:
         sed -i "s/TWITTER_API_KEY/$TWITTER_API_KEY/g"  ./RISJbot/pipelines/twitterstats.py
         sed -i "s/TWITTER_API_SECRET/$TWITTER_API_SECRET/g"  ./RISJbot/pipelines/twitterstats.py
         sed -i "s/TWITTER_BEARER_TOKEN/$TWITTER_BEARER_TOKEN/g"  ./RISJbot/pipelines/twitterstats.py
-        sed -i "s/TWITTER_ACCESS_TOKEN/$TWITTER_ACCESS_TOKEN/g"  ./RISJbot/pipelines/twitterstats.py
         sed -i "s/TWITTER_ACCESS_TOKEN_SECRET/$TWITTER_ACCESS_TOKEN_SECRET/g"  ./RISJbot/pipelines/twitterstats.py
+        sed -i "s/TWITTER_ACCESS_TOKEN/$TWITTER_ACCESS_TOKEN/g"  ./RISJbot/pipelines/twitterstats.py
         docker build -t gcr.io/"$PROJECT_ID"/"$IMAGE":"$GITHUB_SHA" \
           --build-arg env=production \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
