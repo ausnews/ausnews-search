@@ -12,6 +12,12 @@ env:
   GKE_ZONE: australia-southeast1-c
   IMAGE: aunews-scrapy
   DEPLOYMENT_NAME: scrapy-deployment
+  #todo: move these to k8s secrets
+  TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+  TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+  TWITTER_BEARER_TOKEN: ${{ secrets.TWITTER_BEARER_TOKEN }}
+  TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+  TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET}}
 
 defaults:
   run:
@@ -48,6 +54,11 @@ jobs:
     # Build the Docker image
     - name: Build Docker image
       run: |-
+        sed -i "s/TWITTER_API_KEY/$TWITTER_API_KEY/g"  ./RISJbot/pipelines/twitterstats.py
+        sed -i "s/TWITTER_API_SECRET/$TWITTER_API_SECRET/g"  ./RISJbot/pipelines/twitterstats.py
+        sed -i "s/TWITTER_BEARER_TOKEN/$TWITTER_BEARER_TOKEN/g"  ./RISJbot/pipelines/twitterstats.py
+        sed -i "s/TWITTER_ACCESS_TOKEN/$TWITTER_ACCESS_TOKEN/g"  ./RISJbot/pipelines/twitterstats.py
+        sed -i "s/TWITTER_ACCESS_TOKEN_SECRET/$TWITTER_ACCESS_TOKEN_SECRET/g"  ./RISJbot/pipelines/twitterstats.py
         docker build -t gcr.io/"$PROJECT_ID"/"$IMAGE":"$GITHUB_SHA" \
           --build-arg env=production \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
