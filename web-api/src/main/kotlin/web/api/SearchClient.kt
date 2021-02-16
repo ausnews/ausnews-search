@@ -21,7 +21,8 @@ interface SearchClient {
         @QueryValue r: String?,
         @QueryValue e: String?,
         @QueryValue("presentation.timing") timing: String = "true",
-        @QueryValue select: String = "all(all(group(source) order(-count()) each(output(count()))))"
+        @QueryValue select: String = "all(all(group(source) order(-count()) each(output(count()))))",
+        @QueryValue twitter
     ): SearchResponse
 
     @Get("/search/")
@@ -39,4 +40,4 @@ data class SearchResultElement(val id: String, val relevance: Float, val childre
 data class SearchResultFields(val sddocname: String, val bodytext: String, val documentid: String,
                               val headline: String?, val url: String, val keywords: Array<String>?,
     val firstpubtime: Long?, val modtime: Long?, val sentiment: Float?, val wordcount: Int?, val abstract: String?, val bylines: Array<String>?,
-    val source: String?) {}
+    val source: String?, val twitter_retweet_count: Int?, val twitter_favourite_count: Int?) {}
