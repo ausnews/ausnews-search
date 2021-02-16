@@ -224,6 +224,7 @@ ITEM_PIPELINES = {
 #    'RISJbot.pipelines.readingage.ReadingAge': 400,
 #    'RISJbot.pipelines.checkcontent.CheckContent': 800,
     'RISJbot.pipelines.striprawpage.StripRawPage': 900,
+    'RISJbot.pipelines.twitterstats.TwitterRelevance': 950,
     'RISJbot.pipelines.vespawrite.VespaWrite': 999
 }
 

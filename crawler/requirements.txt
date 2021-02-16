@@ -8,3 +8,4 @@ scrapy-dotpersistence==0.3.0
 scrapy-splash==0.7.2
 readability-lxml==0.8.1
 pyvespa
+tweepy==3.10.0

@@ -38,3 +38,5 @@ class NewsItem(scrapy.Item):
     female = scrapy.Field()
     kincaidgradelevel = scrapy.Field()
     fleschreadingease = scrapy.Field()
+    twitter_favourite_count = scrapy.Field()
+    twitter_retweet_count = scrapy.Field()

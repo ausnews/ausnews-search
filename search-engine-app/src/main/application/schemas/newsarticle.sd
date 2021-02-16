@@ -47,6 +47,12 @@ schema newsarticle {
         field section type string {
             indexing:  summary
         }
+        field twitter_favourite_count type int {
+            indexing: summary | attribute
+        }
+        field twitter_retweet_count type int {
+            indexing: summary | attribute
+        }
     }
 
     fieldset default {
@@ -74,4 +80,25 @@ schema newsarticle {
         }
     }
 
+    rank-profile twitter inherits bm25_freshness {
+        rank-properties {
+          $twitterFavourite: 0.3
+          $twitterRetweet: 0.6
+          $twitterWeight: 0.4
+          $freshnessWeight: 2
+        }
+
+        function twitter() {
+            expression: attribute(twitter_favourite_count) * query(twitterFavourite) + attribute(twitter_retweet_count) * query(twitterRetweet)
+        }
+
+        # normalization factor for the weighted sum
+        function normalization() {
+            expression: $twitterWeight + $freshnessWeight
+        }
+
+        first-phase {
+            expression: (bm25(headline) + bm25(bodytext) + freshness(firstpubtime).logscale * query(freshnessWeight) + query(twitterWeight) * twitter) / normalization
+        }
+    }
 }
