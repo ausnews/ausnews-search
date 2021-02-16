@@ -34,10 +34,11 @@ class VespaWrite:
             if ('twitter_favourite_count' in item):
                 vespa_fields['twitter_favourite_count'] = item['twitter_favourite_count']
 
-            response = self.vespa.feed_data_point(
+            response = self.vespa.update_data(
                 schema = "newsarticle",
                 data_id = hashlib.sha256(item['url'].encode()).hexdigest(),
-                fields = vespa_fields
+                fields = vespa_fields,
+                create = True
             )
             return item
         except (KeyError, TypeError):

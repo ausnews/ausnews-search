@@ -224,8 +224,8 @@ ITEM_PIPELINES = {
 #    'RISJbot.pipelines.readingage.ReadingAge': 400,
 #    'RISJbot.pipelines.checkcontent.CheckContent': 800,
     'RISJbot.pipelines.striprawpage.StripRawPage': 900,
-    'RISJbot.pipelines.vespawrite.VespaWrite': 950,
-    'RISJbot.pipelines.twitterstats.TwitterRelevance': 999,
+    'RISJbot.pipelines.twitterstats.TwitterRelevance': 950,
+    'RISJbot.pipelines.vespawrite.VespaWrite': 999,
 }
 
 # Flag to determine storage of rawpagegzipb64 (to turn off for debugging)
