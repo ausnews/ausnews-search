@@ -23,7 +23,7 @@
                     <strong>
                         <p [innerHTML]="article.fields.abstract"></p>
                     </strong>
-                    <div>
+                    <div *ngIf="!topNews">
                         <p [innerHTML]="article.fields.bodytext"></p>
                     </div>
                     <div *ngIf="article.fields.bylines">
