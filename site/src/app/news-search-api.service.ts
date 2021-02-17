@@ -8,7 +8,9 @@ export class NewsSearchApiService {
   constructor(private http:HttpClient) { }
 
   getTopNews() {
-    const url = "https://search.ausnews.org/search?q=twitter_favourite_count%3A%3E1&h=20&ranking=twitter&twitterWeight=0.5&twitterRetweetWeight=0.2&twitterFavouriteWeight=0.1&freshnessWeight=50"
+    var firstpubtime = (new Date().getTime()) / 1000;
+    firstpubtime -= 24 * 60 * 60;
+    const url = `https://search.ausnews.org/search?q=twitter_favourite_count%3A%3E1+firstpubtime%3A%3E${firstpubtime}&h=20&ranking=twitter&twitterWeight=0.5&twitterRetweetWeight=0.2&twitterFavouriteWeight=0.1&freshnessWeight=30`
     return this.http.get(url);
   }
 
