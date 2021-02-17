@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="center">
-    <div fxLayout="row" fxLayoutAlign="left" fxHide fxShow.gt-sm>
+    <div fxLayout="row" fxLayoutAlign="left" fxHide fxShow.gt-sm *ngIf="!topNews">
         <mat-selection-list [(ngModel)]="selectedSources">
             <mat-list-option *ngFor="let mySource of mSources.keys()" [value]="mySource" (click)="selectedSearch()">
                 {{mySource}} ({{mSources.get(mySource)}})
@@ -8,7 +8,7 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" fxFlex="60" fxFlex.lt-md="100%">
         <div fxLayout="column" fxLayoutAlign="space-between center">
-            <div *ngIf="timing">{{ timing.searchtime * 1000 | number:'1.0-0' }}ms</div>
+            <h1 *ngIf="topNews">Top News</h1>
             <mat-card class="card" *ngFor="let article of mArticles">
                 <mat-card-header>
                     <mat-card-title>

@@ -7,6 +7,11 @@ import { HttpClient  } from '@angular/common/http';
 export class NewsSearchApiService {
   constructor(private http:HttpClient) { }
 
+  getTopNews() {
+    const url = "https://search.ausnews.org/search?q=twitter_favourite_count%3A%3E1&h=20&ranking=twitter&twitterWeight=0.2&twitterRetweetWeight=0.2&twitterFavouriteWeight=0.1&freshnessWeight=50"
+    return this.http.get(url);
+  }
+
   getSearchResults(query: String, bylines: String, source: String = null, start: Date, end: Date, sources: string) {
     var url = `https://search.ausnews.org/search?q=${query}&h=20`;
     if (bylines != null && bylines.length > 0) {

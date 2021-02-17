@@ -16,6 +16,7 @@ export class SearchResultsComponent implements OnInit {
   selectedSources: any;
   queryParams: any;
   static clearSources = true;
+  topNews: boolean = false;
 
   constructor(private router: Router, private route: ActivatedRoute, private searchApi: NewsSearchApiService) {}
 
@@ -38,6 +39,19 @@ export class SearchResultsComponent implements OnInit {
       } else {
         SearchResultsComponent.clearSources = true;
       }
+    });
+  }
+
+  top() {
+    this.topNews = true;
+    this.searchApi.getTopNews().subscribe(data => {
+      const allData = data as Array<any>;
+      this.timing = allData["timing"];
+      const groupData = allData["results"].filter(i => { return i.id.startsWith("group:root") });
+      this.mArticles = allData["results"].filter(result => {
+        return result.id.startsWith("id:newsarticle");
+      });
+      this.mSources.clear();
     });
   }
 
@@ -76,10 +90,13 @@ export class SearchResultsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.topNews = false;
     this.route.queryParams.subscribe(queryParams => {
       this.queryParams = queryParams;
       if (queryParams['id'] != null) {
         this.related(queryParams['id']);
+      } else if (queryParams['q'] == null) {
+        this.top();
       } else {
         this.doSearch(queryParams);
       }

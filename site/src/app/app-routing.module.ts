@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 
 const routes: Routes = [
+  { path: '', component: SearchResultsComponent },
   { path: 'search', component: SearchResultsComponent },
   { path: 'search/related', component: SearchResultsComponent },
 ];
