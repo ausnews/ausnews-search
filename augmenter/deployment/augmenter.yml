@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: augmenter
+  labels:
+    app: augmenter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: augmenter
+  template:
+    metadata:
+      labels:
+        app: augmenter
+    spec:
+      containers:
+      - name: augmenter
+        image: aunews-augmenter
+        imagePullPolicy: Always
+        resources:
+            requests:
+              memory: "256Mi"
+            limits:
+              memory: "256Mi"
+#      nodeSelector:
+#        cloud.google.com/gke-nodepool: non-vespa
