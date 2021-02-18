@@ -19,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatListModule} from '@angular/material/list';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import {MatListModule} from '@angular/material/list';
     MatExpansionModule,
     MatListModule
   ],
-  providers: [MatDatepickerModule],
+  providers: [MatDatepickerModule, { provide: MAT_DATE_LOCALE, useValue: 'en-AU' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
