@@ -33,7 +33,7 @@ class TwitterInserter:
             data_id = hashlib.sha256(article['fields']['url'].encode()).hexdigest(),
             fields = vespa_fields
         )
-        print("Updated {} with {} {}: {}".format(article['fields']['url'], status.favorite_count, status.retweet_count, response))
+        #print("Updated {} with {} {}: {}".format(article['fields']['url'], status.favorite_count, status.retweet_count, response))
 
     def get_article(self, url):
         article_time = time.time() - 24 * 60 * 60
@@ -69,4 +69,4 @@ class TwitterInserter:
 while True:
     a = TwitterInserter()
     a.run()
-    time.sleep(600)
+    time.sleep(300)
