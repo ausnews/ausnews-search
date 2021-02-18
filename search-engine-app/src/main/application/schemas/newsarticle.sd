@@ -6,7 +6,7 @@ schema newsarticle {
             stemming: best
         }
         field url type string {
-            indexing: summary
+            indexing: attribute | summary
         }
         field keywords type array<string> {
             indexing: summary
