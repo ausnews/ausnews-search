@@ -3,6 +3,7 @@ import tweepy
 import time
 from vespa.application import Vespa
 import hashlib
+from urllib.request import urlopen
 
 logger = logging.getLogger(__name__)
 
@@ -14,20 +15,26 @@ class TwitterInserter:
         self.vespa = Vespa(url = "http://vespa-search", port = 8080)
         auth = tweepy.AppAuthHandler(self.api_key, self.api_secret)
         self.api = tweepy.API(auth)
+        updated = 0
         for userid in ['abcnews', 'GuardianAus', 'smh', 'iTnews_au', 'theage', 'canberratimes', 'zdnetaustralia', 'newscomauHQ', 'westaustralian']:
             try:
-                for status in self.api.user_timeline(id=userid, count=50, include_entities=True):
+                for status in tweepy.Cursor(self.api.user_timeline, id=userid, include_entities=True).items(60):
                     if len(status.entities['urls']) == 0:
                         continue
                     url = status.entities['urls'][0]['expanded_url']
                     url = url.split('?')[0]
-                    if (url.startswith("https://twitter.com") or url.startswith("https://zd.net") or url.startswith("https://bit.ly")):
+                    if (url.startswith("https://twitter.com")):
                         continue
+                    if (url.startswith("https://zd.net") or url.startswith("https://bit.ly")):
+                        url = urlopen(url).geturl()
                     article = self.get_article(url)
                     if article:
                         self.update_document(article, status)
+                        updated += 1
             except Exception as e:
                 logger.error(e)
+        print("Completed run, updated {} tweets".format(updated))
+
 
     def update_document(self, article, status):
         vespa_fields = { }
