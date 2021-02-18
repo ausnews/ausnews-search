@@ -4,6 +4,8 @@ import time
 from vespa.application import Vespa
 import hashlib
 
+logger = logging.getLogger(__name__)
+
 class TwitterInserter:
     api_key = "TWITTER_API_KEY"
     api_secret = "TWITTER_API_SECRET"
@@ -13,16 +15,19 @@ class TwitterInserter:
         auth = tweepy.AppAuthHandler(self.api_key, self.api_secret)
         self.api = tweepy.API(auth)
         for userid in ['abcnews', 'GuardianAus', 'smh', 'iTnews_au', 'theage', 'canberratimes', 'zdnetaustralia', 'newscomauHQ', 'westaustralian']:
-            for status in self.api.user_timeline(id=userid, count=50, include_entities=True):
-                if len(status.entities['urls']) == 0:
-                    continue
-                url = status.entities['urls'][0]['expanded_url']
-                url = url.split('?')[0]
-                if (url.startswith("https://twitter.com") or url.startswith("https://zd.net") or url.startswith("https://bit.ly")):
-                    continue
-                article = self.get_article(url)
-                if article:
-                    self.update_document(article, status)
+            try:
+                for status in self.api.user_timeline(id=userid, count=50, include_entities=True):
+                    if len(status.entities['urls']) == 0:
+                        continue
+                    url = status.entities['urls'][0]['expanded_url']
+                    url = url.split('?')[0]
+                    if (url.startswith("https://twitter.com") or url.startswith("https://zd.net") or url.startswith("https://bit.ly")):
+                        continue
+                    article = self.get_article(url)
+                    if article:
+                        self.update_document(article, status)
+            except Exception as e:
+                logger.error(e)
 
     def update_document(self, article, status):
         vespa_fields = { }
