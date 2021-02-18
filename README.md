@@ -1,19 +1,20 @@
 ![Build and deploy the search engine](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20the%20search%20engine/badge.svg)<br/>
 ![Build and deploy the Web API](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20the%20Web%20API/badge.svg)<br/>
 ![Build and deploy site on www.ausnews.org](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20site%20on%20www.ausnews.org/badge.svg)<br/>
-![Build and deploy spiders](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20spiders/badge.svg)
+![Build and deploy spiders](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20spiders/badge.svg) <br/>
+[![Build and deploy augmenter](https://github.com/ausnews/ausnews-search/actions/workflows/augmenter.yml/badge.svg)](https://github.com/ausnews/ausnews-search/actions/workflows/augmenter.yml)
 
 # AUSNews Search
 
-As deployed to https://www.ausnews.org
+As seen on https://www.ausnews.org
 
-AUSNews search is a high performance, open-source search engine indexing some Australian news sites. It consists of 4 components:
+AUSNews search is a high performance, open-source search engine indexing some Australian news sites. It consists of 5 components:
 - [Search engine app](./search-engine-app/). This is a [Vespa](https://vespa.ai) application. Great for scale, great for machine learned ranking. It supports live resizing of content nodes, live updates to search definitions and the application itself without any downtime.
 - [Spiders](./crawler/). Like it says on the tin, these crawl news websites and feeds into the search engine for processing and storage. This component utilises [Scrapy](scrapy.org) (python), inherited RISJbot for news article scraping with custom spiders for Australian content
 - Search [web-api](./web-api/). This is a (currently) simple user-facing API that interacts with and abstracts the vespa application backend. A simple micronaut/kotlin application.
 - [Frontend site](./site/). A [Material Angular](https://material.angular.io) application for the browser UI.
-- Infrastructure: Spiders, Search and Web API are all deployed to GKE. Each folder has a subfolder deployment/ containing kubernetes yaml. Github workflows run per-directory to re-deploy each component when pull-requests to master are merged (TODO). The site can be run locally or on any static hosting service.
-Technologies:
+- [Augmenter](./augmenter). Send extra signals about documents. Currently just twitter stats for each story. This is helpful for the "Top News" section.
+- Infrastructure: Spiders, Search, Augmenter and the Web API are all deployed to GKE. Each folder has a subfolder deployment/ containing kubernetes yaml. Github workflows run per-directory to re-deploy each component when commits to master are made. The site can be run locally or on any static hosting service - on commit the page is pushed to the github pages repo.
 
 ## Search Engine
 
@@ -178,11 +179,6 @@ Note that you can do local dev of individual components against live k8s deploym
 
 ## GKE Deployment
 
-Set your Google Cloud project id:
-```
-export GOOGLE_PROJECT_ID=<your_project_id>
-```
-
 Make sure you have `gcloud` setup and are authenticated for your chosen account. Create your cluster:
 ```
 cd search-engine-app
@@ -197,8 +193,8 @@ Build & Deploy the search engine:
 Build & Deploy the spiders:
 ```
 cd ../crawler
-docker build -t gcr.io/{google-project-id}/aunews-scrapy .
-sed -i 's/GOOGLE_PROJECT_ID/$GOOGLE_PROJECT_ID/g' deployment/scrapy.yml
+docker build -t aunews-scrapy .
+docker push aunews-scrapy
 kubectl apply -f deployment/scrapy.yml
 ```
 
@@ -206,9 +202,7 @@ Build & Deploy the web API:
 ```
 cd ../web-api
 ./gradlew jibDockerBuild
-sed -i 's/GOOGLE_PROJECT_ID/$GOOGLE_PROJECT_ID/g' build.gradle.kts
-docker push gcr.io/$GOOGLE_PROJECT_ID/ausnews-web-api
-sed -i 's/GOOGLE_PROJECT_ID/$GOOGLE_PROJECT_ID/g' deployment/web-api.yml
+docker push ausnews-web-api
 kubectl apply -f deployment/web-api.yml -f deployment/service.yml
 ```
 
@@ -222,7 +216,6 @@ Done! Visit localhost:4200
 For prometheus/grafana monitoring (this includes vespa stats; query rates, document statistics etc), make sure you have `helm` installed and:
 ```
 cd monitoring
-kubectl create ns monitoring
-helm install -f prometheus-stack.yml prometheus-grafana prometheus-community/kube-prometheus-stack --namespace monitoring
-kubectl apply -f master-podmonitor.yml --namespace monitoring
+helm install -f prometheus-stack.yml prometheus-grafana prometheus-community/kube-prometheus-stack
+kubectl apply -f master-podmonitor.yml
 ```
