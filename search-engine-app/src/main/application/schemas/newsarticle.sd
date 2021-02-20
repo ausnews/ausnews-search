@@ -53,6 +53,9 @@ schema newsarticle {
         field twitter_retweet_count type int {
             indexing: summary | attribute
         }
+        field twitter_link type string {
+            indexing: summary
+        }
     }
 
     fieldset default {

@@ -40,6 +40,7 @@ class TwitterInserter:
         vespa_fields = { }
         vespa_fields['twitter_favourite_count'] = status.favorite_count
         vespa_fields['twitter_retweet_count'] = status.retweet_count
+        vespa_fields['twitter_link'] = 'https://twitter.com/{}/status/{}'.format(status.user.screen_name, status.id)
         response = self.vespa.update_data(
             schema = "newsarticle",
             data_id = hashlib.sha256(article['fields']['url'].encode()).hexdigest(),
