@@ -26,8 +26,8 @@
                     <div *ngIf="!topNews">
                         <p [innerHTML]="article.fields.bodytext"></p>
                     </div>
-                    <div *ngIf="article.fields.bylines">
-                        <span class="mat-caption" [innerHTML]="article.fields.bylines.join(', ')"></span>
+                    <div>
+                        <span *ngIf="article.fields.bylines" class="mat-caption" [innerHTML]="article.fields.bylines.join(', ')"></span>
                         <a *ngIf="article.fields.twitter_link" target="_new" href='{{article.fields.twitter_link}}' style="float: right">
                             <svg id="twitter-logo" height="20" data-name="Logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
                             <rect width="200" height="150" fill="none" />
