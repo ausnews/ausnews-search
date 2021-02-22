@@ -16,7 +16,7 @@ class TwitterInserter:
         auth = tweepy.AppAuthHandler(self.api_key, self.api_secret)
         self.api = tweepy.API(auth)
         updated = 0
-        for userid in ['abcnews', 'GuardianAus', 'smh', 'iTnews_au', 'theage', 'canberratimes', 'zdnetaustralia', 'newscomauHQ', 'westaustralian']:
+        for userid in ['abcnews', 'GuardianAus', 'smh', 'iTnews_au', 'theage', 'canberratimes', 'zdnetaustralia', 'newscomauHQ', 'westaustralian', 'SBSNews', 'australian', 'crikey_news']:
             try:
                 for status in tweepy.Cursor(self.api.user_timeline, id=userid, include_entities=True).items(60):
                     if len(status.entities['urls']) == 0:

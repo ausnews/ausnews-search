@@ -9,6 +9,9 @@ from RISJbot.spiders.canberratimes import CanberraTimesSpider
 from RISJbot.spiders.theage import TheAgeSpider
 from RISJbot.spiders.thewest import TheWestSpider
 from RISJbot.spiders.itnews import ITNewsSpider
+from RISJbot.spiders.sbs import SBSSpider
+from RISJbot.spiders.crikey import CrikeySpider
+from RISJbot.spiders.theaustralian import TheAustralianSpider
 from scrapy.utils.project import get_project_settings
 from scrapy.utils.log import configure_logging
 import logging
@@ -30,4 +33,7 @@ process.crawl(CanberraTimesSpider)
 process.crawl(TheAgeSpider)
 process.crawl(TheWestSpider)
 process.crawl(ITNewsSpider)
+process.crawl(CrikeySpider)
+process.crawl(SBSSpider)
+process.crawl(TheAustralianSpider)
 process.start()
