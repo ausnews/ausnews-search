@@ -13,6 +13,7 @@ class NewsRSSFeedSpider(XMLFeedSpider):
     def parse_node(self, response, selector):
         nf = etree_to_recursive_dict(selector.root)[1]
         # Extract URL and submit Request for crawling
+        selector.remove_namespaces()
         url = selector.xpath('link/text()').extract_first()
         if url:
             meta = {'RSSFeed': nf, 'originalurl': url}
