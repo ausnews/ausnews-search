@@ -4,6 +4,8 @@ import time
 from vespa.application import Vespa
 import hashlib
 from urllib.request import urlopen
+import requests
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -18,23 +20,30 @@ class TwitterInserter:
         updated = 0
         for userid in ['abcnews', 'GuardianAus', 'smh', 'iTnews_au', 'theage', 'canberratimes', 'zdnetaustralia', 'newscomauHQ', 'westaustralian', 'SBSNews', 'australian', 'crikey_news']:
             try:
-                for status in tweepy.Cursor(self.api.user_timeline, id=userid, include_entities=True).items(60):
+                for status in tweepy.Cursor(self.api.user_timeline, id=userid, include_entities=True, tweet_mode="extended").items(60):
                     if len(status.entities['urls']) == 0:
                         continue
                     url = status.entities['urls'][0]['expanded_url']
-                    url = url.split('?')[0]
-                    if (url.startswith("https://twitter.com")):
-                        continue
-                    if (url.startswith("https://zd.net") or url.startswith("https://bit.ly")):
+                    if (re.match(r'https?://zd.net', url) or url.startswith("https://bit.ly")):
                         url = urlopen(url).geturl()
+                    url = url.split('?')[0]
+                    if (url.startswith("https://twitter.com") or url.startswith("https://www.reddit.com")):
+                        continue
                     article = self.get_article(url)
                     if article:
                         self.update_document(article, status)
                         updated += 1
+#                    else:
+#                        self.insert_document(url)
             except Exception as e:
-                logger.error(e)
+                continue
         print("Completed run, updated {} tweets".format(updated))
 
+
+#    def insert_document(self, url):
+#        payload = {'url': url }
+#        requests.get("http://localhost:8000/", params=payload)
+#        print("Hit spider url for {}".format(url))
 
     def update_document(self, article, status):
         vespa_fields = { }
@@ -46,7 +55,7 @@ class TwitterInserter:
             data_id = hashlib.sha256(article['fields']['url'].encode()).hexdigest(),
             fields = vespa_fields
         )
-        #print("Updated {} with {} {}: {}".format(article['fields']['url'], status.favorite_count, status.retweet_count, response))
+        print("Updated {} with {} {}: {}".format(article['fields']['url'], status.favorite_count, status.retweet_count, response))
 
     def get_article(self, url):
         article_time = time.time() - 24 * 60 * 60
@@ -58,26 +67,6 @@ class TwitterInserter:
         results = self.vespa.query(body=body)
         if len(results.hits) > 0:
             return results.hits[0]
-
-    def get_twitter_user(self, url):
-        if url.startswith("https://www.abc.net.au"):
-            return "abcnews"
-        if url.startswith("https://www.theguardian.com/"):
-            return "GuardianAus"
-        if url.startswith("https://www.smh.com.au"):
-            return "smh"
-        if url.startswith("https://www.itnews.com.au"):
-            return "iTnews_au"
-        if url.startswith("https://www.theage.com.au"):
-            return "theage"
-        if url.startswith("https://www.canberratimes.com.au"):
-            return "canberratimes"
-        if url.startswith("https://www.zdnet.com"):
-            return "zdnetaustralia"
-        if url.startswith("https://www.news.com.au"):
-            return "newscomauHQ"
-        if url.startswith("https://thewest.com.au"):
-            return "westaustralian"
 
 while True:
     a = TwitterInserter()
