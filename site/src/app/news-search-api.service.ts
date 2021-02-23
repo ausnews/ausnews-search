@@ -10,7 +10,7 @@ export class NewsSearchApiService {
   getTopNews() {
     var firstpubtime = (new Date().getTime()) / 1000;
     firstpubtime -= 24 * 60 * 60;
-    const url = `https://search.ausnews.org/search?q=twitter_favourite_count%3A%3E1+firstpubtime%3A%3E${firstpubtime}&h=20&ranking=twitter&twitterWeight=1&twitterRetweetWeight=30&twitterFavouriteWeight=1&freshnessWeight=50`
+    const url = `https://search.ausnews.org/search?q=twitter_favourite_count%3A%3E1+firstpubtime%3A%3E${firstpubtime}&h=20&ranking=twitter&twitterWeight=0.4&twitterRetweetWeight=3&twitterFavouriteWeight=0.1&freshnessWeight=100`
     return this.http.get(url);
   }
 
