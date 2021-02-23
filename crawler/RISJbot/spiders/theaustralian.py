@@ -11,6 +11,7 @@ import re
 class TheAustralianSpider(NewsRSSFeedSpider):
     name = 'australian'
     start_urls = ['https://www.theaustralian.com.au/feed/']
+    allowed_domains = ['www.theaustralian.com.au']
 
     def parse_node(self, response, selector):
         """Override NewsRSSFeedSpider to normalise URLs and remove tracking
@@ -48,6 +49,7 @@ class TheAustralianSpider(NewsRSSFeedSpider):
         # providers. Can override these (for TakeFirst() fields) by making
         # l.add_* calls above this line, or supplement gaps by making them
         # below.
+        l.add_scrapymeta(response)
         l.add_fromresponse(response)
         l.add_htmlmeta()
         l.add_schemaorg(response)

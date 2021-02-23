@@ -49,6 +49,7 @@ class NineNewsSpider(NewsRSSFeedSpider):
         # providers. Can override these (for TakeFirst() fields) by making
         # l.add_* calls above this line, or supplement gaps by making them
         # below.
+        l.add_scrapymeta(response)
         l.add_fromresponse(response)
         l.add_htmlmeta()
         l.add_schemaorg(response)
