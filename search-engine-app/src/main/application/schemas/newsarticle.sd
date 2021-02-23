@@ -89,7 +89,7 @@ schema newsarticle {
           $twitterRetweet: 0.6
           $twitterWeight: 0.4
           $freshnessWeight: 2
-          freshness(firstpubtime).halfResponse: 172800
+          freshness(firstpubtime).halfResponse: 43200
         }
 
         function twitter() {
