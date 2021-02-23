@@ -12,6 +12,7 @@ from RISJbot.spiders.itnews import ITNewsSpider
 from RISJbot.spiders.sbs import SBSSpider
 from RISJbot.spiders.crikey import CrikeySpider
 from RISJbot.spiders.theaustralian import TheAustralianSpider
+from RISJbot.spiders.ninenews import NineNewsSpider
 from scrapy.utils.project import get_project_settings
 from scrapy.utils.log import configure_logging
 import logging
@@ -36,4 +37,5 @@ process.crawl(ITNewsSpider)
 process.crawl(CrikeySpider)
 process.crawl(SBSSpider)
 process.crawl(TheAustralianSpider)
+process.crawl(NineNewsSpider)
 process.start()
