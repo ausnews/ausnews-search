@@ -55,10 +55,10 @@ public class RelatedArticlesSearcher extends Searcher {
         Document d = session.get(new DocumentId((id)));
         String headline = null;
         String summary = null;
-        if (d.getField("headline") != null) {
+        if (d.getFieldValue(d.getField("headline")) != null) {
             headline = d.getFieldValue(d.getField("headline")).toString();
         }
-        if (d.getField("abstract") != null) {
+        if (d.getFieldValue(d.getField("abstract")) != null) {
             summary = d.getFieldValue(d.getField("abstract")).toString();
         }
         session.destroy();
