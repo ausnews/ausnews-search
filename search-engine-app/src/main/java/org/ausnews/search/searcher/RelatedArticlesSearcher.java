@@ -51,7 +51,19 @@ public class RelatedArticlesSearcher extends Searcher {
         SyncSession session = this.documentAccess.createSyncSession(new SyncParameters.Builder().build());
         Document d = session.get(new DocumentId((id)));
         session.destroy();
-        return new Article(d.getFieldValue(d.getField("headline")).toString(), d.getFieldValue(d.getField("abstract")).toString());
+        String headline = null;
+        String summary = null;
+        if (d.getField("headline") != null) {
+            headline = d.getField("headline").toString();
+        }
+        if (d.getField("abstract") != null) {
+            summary = d.getField("abstract").toString();
+        }
+        if (headline != null && summary != null) {
+            return new Article(headline, summary);
+        } else {
+            return null;
+        }
     }
 
     private void addWeakAndItem(Article article, Query query) {
