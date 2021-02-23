@@ -43,8 +43,11 @@ public class RelatedArticlesSearcher extends Searcher {
     public Result search(Query query, Execution execution) {
         String relatedArticleId = query.properties().getString("id");
         Article article = fetchArticle(relatedArticleId, execution, query);
-        addWeakAndItem(article, query);
-        return execution.search(query);
+        if (article != null) {
+            addWeakAndItem(article, query);
+            return execution.search(query);
+        }
+        return null;
     }
 
     private Article fetchArticle(String id, Execution execution, Query query) {
@@ -59,7 +62,7 @@ public class RelatedArticlesSearcher extends Searcher {
         if (d.getField("abstract") != null) {
             summary = d.getField("abstract").toString();
         }
-        if (headline != null && summary != null) {
+        if (headline != null || summary != null) {
             return new Article(headline, summary);
         } else {
             return null;
