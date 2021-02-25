@@ -2,12 +2,6 @@
 <!-- Copyright 2019 Oath Inc. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root. -->
 
 <services version="1.0">
-    <admin version='2.0'>
-        <adminserver hostalias="admin0"/>
-        <configservers>
-            <configserver hostalias="admin0"/>
-        </configservers>
-    </admin>
 
     <container id="text_search" version="1.0">
         <document-api/>
@@ -27,12 +21,16 @@
             </config>
 
         </search>
-        <document-processing/>
+      <document-processing>
+        <chain id="default">
+          <documentprocessor id="org.ausnews.search.processor.ArticleProcessor" bundle="ausnews-search"/>
+        </chain>
+      </document-processing>
 
         <!-- <component id="com.yahoo.language.simple.SimpleLinguistics"/> -->
 
-        <nodes jvmargs="-Xms512m -Xmx512m">
-                  <node hostalias='container0'/><node hostalias='container1'/><node hostalias='container2'/>
+        <nodes jvmargs="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:8998">
+            <node hostalias="node1"/>
         </nodes>
 
     </container>
@@ -53,7 +51,7 @@
             <document-processing cluster="text_search"/>
         </documents>
         <nodes>
-                  <node hostalias='content0' distribution-key='0' /><node hostalias='content1' distribution-key='1' />
+            <node distribution-key='0' hostalias='node1'/>
         </nodes>
     </content>
 

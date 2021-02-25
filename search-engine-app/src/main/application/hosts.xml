@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2019 Oath Inc. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root. -->
 <hosts>
-  <host name='vespa-0.vespa-internal.default.svc.cluster.local'><alias>admin0</alias><alias>container0</alias><alias>content0</alias></host>
-  <host name='vespa-content-0.vespa-internal.default.svc.cluster.local'><alias>content1</alias></host>
-  <host name='vespa-container-0.vespa-internal.default.svc.cluster.local'><alias>container1</alias></host>
-  <host name='vespa-container-1.vespa-internal.default.svc.cluster.local'><alias>container2</alias></host>
+  <host name="localhost">
+    <alias>node1</alias>
+  </host>
 </hosts>
+

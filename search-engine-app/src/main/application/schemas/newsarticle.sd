@@ -56,6 +56,9 @@ schema newsarticle {
         field twitter_link type string {
             indexing: summary
         }
+        field group_doc_id type string {
+            indexing: attribute | summary
+        }
     }
 
     fieldset default {

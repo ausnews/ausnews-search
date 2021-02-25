@@ -35,9 +35,9 @@ class SearchController(private val searchClient: SearchClient) {
         var hits = h ?: 25
         return try {
             q?.let {
-                val r = searchClient.search(yql, q, b, s, "default", ranking ?: "bm25_freshness", hits, r, e, twitterWeight = twitterWeight,
-                    twitterFavouriteWeight = twitterWeight, twitterRetweetWeight = twitterRetweetWeight, freshnessWeight = freshnessWeight)
-                Result(r.timing, r.root.children)
+                val result = searchClient.search(yql, q, b, s, "default", ranking ?: "bm25_freshness", hits, r, e, twitterWeight = twitterWeight,
+                    twitterFavouriteWeight = twitterFavouriteWeight, twitterRetweetWeight = twitterRetweetWeight, freshnessWeight = freshnessWeight)
+                Result(result.timing, result.root.children)
             } ?: Result(null, arrayOf<SearchResultElement>())
         } catch (e: Exception) {
             Result(null, arrayOf<SearchResultElement>())
