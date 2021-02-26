@@ -88,11 +88,11 @@ schema newsarticle {
 
     rank-profile twitter inherits bm25_freshness {
         rank-properties {
-          $twitterFavourite: 0.3
-          $twitterRetweet: 0.6
-          $twitterWeight: 0.4
-          $freshnessWeight: 2
-          freshness(firstpubtime).halfResponse: 43200
+          query(twitterFavourite): 0.3
+          query(twitterRetweet): 0.6
+          query(twitterWeight): 0.4
+          query(freshnessWeight): 2
+          freshness(firstpubtime).halfResponse: 7200
         }
 
         function twitter() {
@@ -105,7 +105,9 @@ schema newsarticle {
         }
 
         first-phase {
-            expression: (bm25(headline) + bm25(bodytext) + freshness(firstpubtime).logscale * query(freshnessWeight) + query(twitterWeight) * twitter) / normalization
+            expression: ((freshness(firstpubtime).logscale * query(freshnessWeight)) * (query(twitterWeight) * twitter)) / normalization
         }
+
+        summary-features: twitter freshness(firstpubtime).logscale
     }
 }

@@ -22,10 +22,10 @@ interface SearchClient {
         @QueryValue e: String?,
         @QueryValue("presentation.timing") timing: String = "true",
         @QueryValue select: String = "all(all(group(source) order(-count()) each(output(count()))))",
-        @QueryValue("ranking.properties.twitterWeight") twitterWeight: Float?,
-        @QueryValue("ranking.properties.twitterRetweet") twitterRetweetWeight: Float?,
-        @QueryValue("ranking.properties.twitterFavourite") twitterFavouriteWeight: Float?,
-        @QueryValue("ranking.properties.freshnessWeight") freshnessWeight: Float?
+        @QueryValue("ranking.features.query(twitterWeight)") twitterWeight: Float?,
+        @QueryValue("ranking.features.query(twitterRetweet)") twitterRetweetWeight: Float?,
+        @QueryValue("ranking.features.query(twitterFavourite)") twitterFavouriteWeight: Float?,
+        @QueryValue("ranking.features.query(freshnessWeight)") freshnessWeight: Float?
     ): SearchResponse
 
     @Get("/search/")
@@ -43,4 +43,5 @@ data class SearchResultElement(val id: String, val relevance: Float, val childre
 data class SearchResultFields(val sddocname: String, val bodytext: String, val documentid: String,
                               val headline: String?, val url: String, val keywords: Array<String>?,
     val firstpubtime: Long?, val modtime: Long?, val sentiment: Float?, val wordcount: Int?, val abstract: String?, val bylines: Array<String>?,
-    val source: String?, val twitter_retweet_count: Int?, val twitter_favourite_count: Int?, val twitter_link: String?, val group_doc_id: String?) {}
+    val source: String?, val twitter_retweet_count: Int?, val twitter_favourite_count: Int?, val twitter_link: String?, val group_doc_id: String?,
+    val summaryfeatures: Map<String, Any>?) {}

@@ -68,12 +68,8 @@ class ArticleProcessor @Inject constructor(
                 false -> Progress.LATER
             }
         }
-        if (deferredActions.size <= 30) {
-            deferredActions[id.toString()] = GlobalScope.async {
-                addTopicToRelatedArticles(operation)
-            }
-        } else {
-            logger.warning("Deferred size grown too big: " + deferredActions.size)
+        deferredActions[id.toString()] = GlobalScope.async {
+            addTopicToRelatedArticles(operation)
         }
         return Progress.LATER
     }
