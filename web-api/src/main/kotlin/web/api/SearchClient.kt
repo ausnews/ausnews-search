@@ -38,7 +38,7 @@ interface SearchClient {
     @Get("/search/")
     public fun topics(
         @QueryValue yql: String = "select * from sources newsarticle WHERE firstpubtime > @firstpubtime and group_doc_id matches \"^id\";",
-        @QueryValue select: String = "all(group(group_doc_id) order(-count()) each(max(3) each(output(summary()))))",
+        @QueryValue select: String = "all(group(group_doc_id) order(-sum(twitter_favourite_count)) each(max(3) each(output(summary()))))",
         @QueryValue("presentation.timing") timing: String = "true",
         @QueryValue hits: String = "0",
         @QueryValue firstpubtime: Long = Instant.now().epochSecond - 86400,
