@@ -25,7 +25,7 @@ class ArticleProcessor @Inject constructor(
     private val executionFactory: ExecutionFactory = executionFactory
     private val linguistics: Linguistics = linguistics
     private val documentAccess: DocumentAccess = acc
-    private val REQUIRED_RELEVANCE_SCORE = 0.10
+    private val REQUIRED_RELEVANCE_SCORE = 0.12
 
     override fun process(processing: Processing): Progress {
         try {
@@ -98,6 +98,7 @@ class ArticleProcessor @Inject constructor(
             query.properties()["hits"] = 30
             query.properties()["query"] = "firstpubtime:>$time"
             query.properties()["searchChain"] = "related"
+            logger.info("Searching $headline")
             val execution = executionFactory.newExecution("related")
             val result = execution.search(query)
             val documentId = when (operation) {
@@ -110,6 +111,7 @@ class ArticleProcessor @Inject constructor(
                 it.getField("documentid").toString() != documentId &&
                         it.relevance.score > REQUIRED_RELEVANCE_SCORE
             }
+            logger.info("Got hits: " + hits.size)
             if (hits.isEmpty()) return
             var topic: String? = null
             for (hit in hits) {
@@ -141,7 +143,7 @@ class ArticleProcessor @Inject constructor(
                 val update = DocumentUpdate(type, docId)
                 val fieldValue = StringFieldValue(t)
                 update.addFieldUpdate(FieldUpdate.createAssign(type.getField(GROUP_FIELD_NAME), fieldValue))
-                //logger.info("Set group_doc_id to $fieldValue for $docId")
+                logger.info("Set group_doc_id to $fieldValue for $docId")
                 asyncSession.update(update)
             }
         } catch (e: Exception) {
