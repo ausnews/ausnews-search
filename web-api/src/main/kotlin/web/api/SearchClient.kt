@@ -34,13 +34,14 @@ interface SearchClient {
                        @QueryValue("presentation.timing") timing: String = "true",
                        @QueryValue searchChain: String = "related"): SearchResponse
 
+    // ?presentation.timing=true&select=all(group(group_doc_id)++order(-count())+each(max(3)+each(output(summary()))))&hits=0&ranking.profile=twitter&yql=select+*+from+sources+newsarticle+WHERE+firstpubtime+%3E+1614311914+and+group_doc_id+matches+%22%5Eid%22%3B
     @Get("/search/")
     public fun topics(
         @QueryValue yql: String = "select * from sources newsarticle WHERE firstpubtime > @firstpubtime and group_doc_id matches \"^id\";",
         @QueryValue select: String = "all(group(group_doc_id) order(-count()) each(max(3) each(output(summary()))))",
         @QueryValue("presentation.timing") timing: String = "true",
         @QueryValue hits: String = "0",
-        @QueryValue firstpubtime: Long = Instant.now().epochSecond,
+        @QueryValue firstpubtime: Long = Instant.now().epochSecond - 86400,
         @QueryValue("ranking.profile") ranking: String = "twitter"): SearchResponse
 }
 
