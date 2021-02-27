@@ -44,9 +44,14 @@ class SearchController(private val searchClient: SearchClient) {
         }
     }
 
+    @Get("/search/topics")
+    fun getTopics(): Result {
+        val result = searchClient.topics()
+        return Result(result.timing, result.root.children)
+    }
+
     @Get("/search/related{?id}")
     fun getRelated(id: String?): Result {
-        println("Searching related: $id")
         return id?.let {
             val r = searchClient.related(id)
             Result(r.timing, r.root.children)

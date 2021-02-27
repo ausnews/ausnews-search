@@ -5,6 +5,7 @@ import io.micronaut.http.annotation.QueryValue
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.scheduling.TaskExecutors
 import io.micronaut.scheduling.annotation.ExecuteOn
+import java.time.Instant
 
 @Client("\${vespa.url}")
 @ExecuteOn(TaskExecutors.IO)
@@ -32,6 +33,15 @@ interface SearchClient {
     public fun related(@QueryValue id: String,
                        @QueryValue("presentation.timing") timing: String = "true",
                        @QueryValue searchChain: String = "related"): SearchResponse
+
+    @Get("/search/")
+    public fun topics(
+        @QueryValue yql: String = "select * from sources newsarticle WHERE firstpubtime > @firstpubtime and group_doc_id matches \"^id\";",
+        @QueryValue select: String = "all(group(group_doc_id) order(-count()) each(max(3) each(output(summary()))))",
+        @QueryValue("presentation.timing") timing: String = "true",
+        @QueryValue hits: String = "0",
+        @QueryValue firstpubtime: Long = Instant.now().epochSecond,
+        @QueryValue("ranking.profile") ranking: String = "twitter"): SearchResponse
 }
 
 data class SearchResponse(val root: SearchRootElement, val timing: Map<String, Any>) {}
