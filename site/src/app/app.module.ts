@@ -23,12 +23,14 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { NewsTopicsComponent } from './news-topics/news-topics.component';
 import { MomentModule } from 'ngx-moment';
 import {MatTabsModule} from '@angular/material/tabs';
+import { SearchFormComponent } from './search-form/search-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchResultsComponent,
-    NewsTopicsComponent
+    NewsTopicsComponent,
+    SearchFormComponent
   ],
   imports: [
     BrowserModule,

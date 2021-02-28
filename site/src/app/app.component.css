@@ -10,18 +10,11 @@
   font-size: smaller;
 }
 
-.first-tool-bar {
-  display: flex;
-  align-items: flex-start;
-}
-
 nav {
   margin-bottom: 15px;
 }
 
-mat-toolbar.mat-toolbar mat-form-field.mat-form-field {
-  font-size: 14px;
-  label.mat-form-field-label {
-    font-weight: bold;
-  }
+.search-form {
+  align-self: flex-start;
+  z-index: 1000;
 }

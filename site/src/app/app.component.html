@@ -1,49 +1,6 @@
-<mat-toolbar color="primary" class="first-tool-bar" fxLayout="row" fxLayoutAlign="space-between center">
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
   <span routerLink="/">AUSNews</span>
-  <form name="asdf" fxLayout="row" fxLayoutAlign="center center">
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <div>
-        <mat-form-field appearance="standard" style="margin-right: 10px;">
-          <mat-label class="test">Search Query</mat-label>
-          <input matInput [(ngModel)]="query" name="query">
-        </mat-form-field>
-        <button mat-stroked-button color="accent" aria-label="Search" routerLink="/search"
-          [queryParams]="{q: query, b: bylines, s: source, r: range.value.start != null ? range.value.start.getTime() : '', e: range.value.end ? range.value.end.getTime() : ''}"
-          style="margin-right: 10px">
-          Search
-        </button>
-        <button mat-button (click)="toggleAccordion()">Options</button>
-      </div>
-      <div>
-        <mat-accordion #accordion="matAccordion" multi>
-          <mat-expansion-panel hideToggle>
-            <mat-form-field appearance="standard" style="margin-right: 10px;">
-              <mat-label>Bylines</mat-label>
-              <input matInput [(ngModel)]="bylines" name="bylines">
-              <mat-hint>e.g. Jane Doe</mat-hint>
-            </mat-form-field>
-            <mat-form-field appearance="standard" style="margin-right: 10px;">
-              <mat-label>Source</mat-label>
-              <input matInput [(ngModel)]="source" name="source">
-              <mat-hint>e.g. Guardian</mat-hint>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-              <mat-label>Published between</mat-label>
-              <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                <input matStartDate formControlName="start" placeholder="Start date">
-                <input matEndDate formControlName="end" placeholder="End date">
-              </mat-date-range-input>
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-date-range-picker #picker></mat-date-range-picker>
-              <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start</mat-error>
-              <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end</mat-error>
-            </mat-form-field>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </div>
-    </div>
-  </form>
-  <!-- <span class="spacer"></span> -->
+  <app-search-form class="search-form" fxHide fxShow.gt-sm style="align-self: flex-start;"></app-search-form>
   <div>
     <a mat-button href="https://github.com/sponsors/ausnews" target="_blank">Sponsor</a>
     <a mat-button href="https://github.com/ausnews/ausnews-search" target="_blank">Source</a>
@@ -64,5 +21,6 @@
 <nav mat-tab-nav-bar>
   <a routerLink="{{link.value}}" mat-tab-link *ngFor="let link of links | keyvalue : sortLinks"
     (click)="activeLink = link.value" [active]="activeLink == link.value">{{link.key}}</a>
+  <a routerLink="/searchf" mat-tab-link (click)="activeLink = '/searchf'" [active]='activeLink == "/searchf"' fxHide fxShow.lt-md>Search</a>  
 </nav>
 <router-outlet></router-outlet>
