@@ -143,7 +143,8 @@ class ArticleProcessor @Inject constructor(
                 val update = DocumentUpdate(type, docId)
                 val fieldValue = StringFieldValue(t)
                 update.addFieldUpdate(FieldUpdate.createAssign(type.getField(GROUP_FIELD_NAME), fieldValue))
-                logger.info("Set group_doc_id to $fieldValue for $docId")
+                val relevance = hit.relevance.score
+                logger.info("Set group_doc_id to $fieldValue for $docId. Relevance: $relevance")
                 asyncSession.update(update)
             }
         } catch (e: Exception) {
