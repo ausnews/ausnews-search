@@ -17,7 +17,7 @@ export class NewsSearchApiService {
   getTopics() {
     /*var firstpubtime = (new Date().getTime()) / 1000;
     firstpubtime -= 24 * 60 * 60;*/
-    const url = `http://search.ausnews.org/search/topics`
+    const url = `https://search.ausnews.org/search/topics`
     return this.http.get(url);
   }
 
