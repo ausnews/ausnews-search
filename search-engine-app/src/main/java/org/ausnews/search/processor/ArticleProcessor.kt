@@ -25,7 +25,7 @@ class ArticleProcessor @Inject constructor(
     private val executionFactory: ExecutionFactory = executionFactory
     private val linguistics: Linguistics = linguistics
     private val documentAccess: DocumentAccess = acc
-    private val REQUIRED_RELEVANCE_SCORE = 0.12
+    private val REQUIRED_RELEVANCE_SCORE = 0.09
 
     override fun process(processing: Processing): Progress {
         try {
