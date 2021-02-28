@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="center">
-    <div fxLayout="row" fxLayoutAlign="left" fxHide fxShow.gt-sm *ngIf="!topNews">
+    <div fxLayout="row" fxLayoutAlign="left" fxHide fxShow.gt-sm *ngIf="!topNews && !topics">
         <mat-selection-list [(ngModel)]="selectedSources">
             <mat-list-option *ngFor="let mySource of mSources.keys()" [value]="mySource" (click)="selectedSearch()">
                 {{mySource}} ({{mSources.get(mySource)}})

@@ -15,6 +15,7 @@ export class SearchResultsComponent implements OnInit {
   queryParams: any;
   static clearSources = true;
   topNews: boolean = false;
+  topics: boolean = false;
 
   constructor(private router: Router, private route: ActivatedRoute, private searchApi: NewsSearchApiService) {}
 
@@ -89,12 +90,13 @@ export class SearchResultsComponent implements OnInit {
 
   ngOnInit(): void {
     this.topNews = false;
+    this.topics = false;
     this.route.queryParams.subscribe(queryParams => {
       this.queryParams = queryParams;
       if (queryParams['id'] != null) {
         this.related(queryParams['id']);
       } else if (queryParams['topic'] != null) {
-        this.topNews = true; // hide source selection
+        this.topics = true;
         this.search("group_doc_id:" + queryParams['topic'], null, null)
       } else if (queryParams['q'] == null) {
         this.top();
