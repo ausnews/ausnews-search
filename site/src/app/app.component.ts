@@ -10,6 +10,8 @@ import {MatAccordion} from '@angular/material/expansion';
 })
 export class AppComponent {
   title = 'AUSNews Search';
+  links: {[key: string]: string} = {'Topics': '', 'Top Articles': '/articles'}
+  activeLink = this.links['Topics'];
   query: string;
   bylines: string;
   source: string;
@@ -20,8 +22,8 @@ export class AppComponent {
   accordionOpened = false;
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
-
-  constructor(private route: ActivatedRoute) { }
+  
+  constructor(private route: ActivatedRoute) {}
   
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
@@ -29,6 +31,10 @@ export class AppComponent {
       this.bylines = params.get('b');
       this.source = params.get('s');
     });
+  }
+
+  sortLinks(a, b): number {
+    return a.key == "Topics" ? -1 : 1;
   }
 
   toggleAccordion() {

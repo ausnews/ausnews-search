@@ -20,11 +20,15 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatListModule} from '@angular/material/list';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { NewsTopicsComponent } from './news-topics/news-topics.component';
+import { MomentModule } from 'ngx-moment';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchResultsComponent
+    SearchResultsComponent,
+    NewsTopicsComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +47,9 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     ReactiveFormsModule,
     MatNativeDateModule,
     MatExpansionModule,
-    MatListModule
+    MatListModule,
+    MomentModule,
+    MatTabsModule
   ],
   providers: [MatDatepickerModule, { provide: MAT_DATE_LOCALE, useValue: 'en-AU' }],
   bootstrap: [AppComponent]

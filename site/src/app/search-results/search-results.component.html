@@ -8,7 +8,6 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" fxFlex="60" fxFlex.lt-md="100%">
         <div fxLayout="column" fxLayoutAlign="space-between center">
-            <h1 *ngIf="topNews">Top News</h1>
             <mat-card class="card" *ngFor="let article of mArticles">
                 <mat-card-header>
                     <mat-card-title>

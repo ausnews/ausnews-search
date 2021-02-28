@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
-import { from, pipe } from 'rxjs';
 import { NewsSearchApiService } from '../news-search-api.service';
-import { startWith, delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-results',
@@ -95,6 +93,8 @@ export class SearchResultsComponent implements OnInit {
       this.queryParams = queryParams;
       if (queryParams['id'] != null) {
         this.related(queryParams['id']);
+      } else if (queryParams['topic'] != null) {
+        this.search("group_doc_id:" + queryParams['topic'], null, null)
       } else if (queryParams['q'] == null) {
         this.top();
       } else {

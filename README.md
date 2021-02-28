@@ -148,7 +148,7 @@ A simple micronaut app written in Kotlin. An interface between clients and the s
 Run vespa in local docker container and deploy the application to it (requires maven):
 ```
 cd search-engine-app
-docker run ...
+docker run --detach --name vespa --hostname vespa-container --privileged --volume `pwd`:/apps --publish 8080:8080 vespaengine/vespa
 mvn clean package
 docker exec vespa bash -c '/opt/vespa/bin/vespa-deploy prepare /apps/target/application.zip && \
     /opt/vespa/bin/vespa-deploy activate'

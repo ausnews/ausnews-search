@@ -1,0 +1,18 @@
+<div fxLayout="row" fxLayoutAlign="center">
+<div fxLayout="column" fxLayoutAlign="center center" fxFlex="60" fxFlex.lt-md="100%">
+    <mat-card class="card" *ngFor="let topic of mTopics">
+        <mat-card-header>
+            <mat-card-title><button mat-stroked-button routerLink="/search/topic" [queryParams]="{topic: topic.children[0].children[0].fields.group_doc_id}">{{topic.children[0].children[0].fields.headline}}</button></mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div *ngFor="let article of topic.children[0].children">
+                <p>
+                    <strong><a target="_new" class="heading-link" href='{{article.fields.url}}'>{{article.fields.source}} {{article.fields.firstpubtime * 1000 | amTimeAgo}}</a></strong><br/>
+                        {{article.fields.headline}}<br/>
+                    <span class="mat-caption">{{article.fields.abstract}}</span>
+                <p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+</div>

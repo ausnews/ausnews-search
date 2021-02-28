@@ -10,7 +10,14 @@ export class NewsSearchApiService {
   getTopNews() {
     var firstpubtime = (new Date().getTime()) / 1000;
     firstpubtime -= 24 * 60 * 60;
-    const url = `https://search.ausnews.org/search?q=twitter_favourite_count%3A%3E1+firstpubtime%3A%3E${firstpubtime}&h=20&ranking=twitter&twitterWeight=0.4&twitterRetweetWeight=3&twitterFavouriteWeight=0.1&freshnessWeight=100`
+    const url = `https://search.ausnews.org/search?q=twitter_favourite_count%3A%3E1+firstpubtime%3A%3E${firstpubtime}&h=20&ranking=twitter&twitterWeight=1&twitterRetweetWeight=1&twitterFavouriteWeight=0.1&freshnessWeight=130`
+    return this.http.get(url);
+  }
+
+  getTopics() {
+    /*var firstpubtime = (new Date().getTime()) / 1000;
+    firstpubtime -= 24 * 60 * 60;*/
+    const url = `http://search.ausnews.org/search/topics`
     return this.http.get(url);
   }
 
