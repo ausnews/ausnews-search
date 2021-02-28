@@ -37,7 +37,7 @@ interface SearchClient {
     // ?presentation.timing=true&select=all(group(group_doc_id)++order(-count())+each(max(3)+each(output(summary()))))&hits=0&ranking.profile=twitter&yql=select+*+from+sources+newsarticle+WHERE+firstpubtime+%3E+1614311914+and+group_doc_id+matches+%22%5Eid%22%3B
     @Get("/search/")
     public fun topics(
-        @QueryValue yql: String = "select * from sources newsarticle WHERE firstpubtime > @firstpubtime and group_doc_id matches \"^id\" order by firstpubtime desc;",
+        @QueryValue yql: String = "select * from sources newsarticle WHERE firstpubtime > @firstpubtime and group_doc_id matches \"^id\" and twitter_favourite_count > 0;",
         @QueryValue select: String = "all(group(group_doc_id) order(-sum(twitter_favourite_count)) each(max(3) each(output(summary()))))",
         @QueryValue("presentation.timing") timing: String = "true",
         @QueryValue hits: String = "0",
