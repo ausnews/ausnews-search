@@ -10,8 +10,8 @@ import {MatAccordion} from '@angular/material/expansion';
 })
 export class AppComponent {
   title = 'AUSNews Search';
-  links: {[key: string]: string} = {'Topics': '', 'Top Articles': '/articles'}
-  activeLink = this.links['Topics'];
+  links: {[key: string]: string} = {'Top News': '', 'Top Articles': '/articles'}
+  activeLink = this.links['Top News'];
   query: string;
   bylines: string;
   source: string;
@@ -34,7 +34,7 @@ export class AppComponent {
   }
 
   sortLinks(a, b): number {
-    return a.key == "Topics" ? -1 : 1;
+    return a.key == "Top News" ? -1 : 1;
   }
 
   toggleAccordion() {
