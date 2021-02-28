@@ -94,6 +94,7 @@ export class SearchResultsComponent implements OnInit {
       if (queryParams['id'] != null) {
         this.related(queryParams['id']);
       } else if (queryParams['topic'] != null) {
+        this.topNews = true; // hide source selection
         this.search("group_doc_id:" + queryParams['topic'], null, null)
       } else if (queryParams['q'] == null) {
         this.top();
