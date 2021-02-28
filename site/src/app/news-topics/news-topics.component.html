@@ -7,7 +7,7 @@
         <mat-card-content>
             <div *ngFor="let article of topic.children[0].children">
                 <p>
-                    <strong><a target="_new" class="heading-link" href='{{article.fields.url}}'>{{article.fields.source}} {{article.fields.firstpubtime * 1000 | amTimeAgo}}</a></strong><br/>
+                    <a target="_new" class="heading-link" href='{{article.fields.url}}'><strong>{{article.fields.source}}</strong> - {{article.fields.firstpubtime * 1000 | amTimeAgo}}</a><br/>
                         {{article.fields.headline}}<br/>
                     <span class="mat-caption">{{article.fields.abstract}}</span>
                 <p>
