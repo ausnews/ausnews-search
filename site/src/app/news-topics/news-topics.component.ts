@@ -21,7 +21,9 @@ export class NewsTopicsComponent implements OnInit {
       this.mTopics = allData["results"][0]["children"]["children"]
       this.mTopics.forEach(topic => {
         topic.children[0].children.forEach(article => {
-          article.fields.abstract = article.fields.abstract.replace(/<.*?>/g, '');
+          if (article.fields.abstract) {
+            article.fields.abstract = article.fields.abstract.replace(/<.*?>/g, '');
+          }
         })
       })
     })
