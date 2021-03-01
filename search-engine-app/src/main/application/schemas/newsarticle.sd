@@ -96,7 +96,6 @@ schema newsarticle {
           query(twitterWeight): 0.4
           query(freshnessWeight): 2
           freshness(firstpubtime).halfResponse: 7200
-          freshness(firstpubtime).maxAge: 86400
         }
 
         function twitter() {
@@ -109,9 +108,9 @@ schema newsarticle {
         }
 
         first-phase {
-            expression: ((freshness(firstpubtime) * query(freshnessWeight)) + ((query(twitterWeight) * twitter))) / normalization
+            expression: ((freshness(firstpubtime).logscale * query(freshnessWeight)) * (query(twitterWeight) * twitter)) / normalization
         }
 
-        summary-features: twitter freshness(firstpubtime)
+        summary-features: twitter freshness(firstpubtime).logscale
     }
 }
