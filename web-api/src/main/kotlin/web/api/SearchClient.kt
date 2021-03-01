@@ -55,4 +55,4 @@ data class SearchResultFields(val sddocname: String, val bodytext: String, val d
                               val headline: String?, val url: String, val keywords: Array<String>?,
     val firstpubtime: Long?, val modtime: Long?, val sentiment: Float?, val wordcount: Int?, val abstract: String?, val bylines: Array<String>?,
     val source: String?, val twitter_retweet_count: Int?, val twitter_favourite_count: Int?, val twitter_link: String?, val group_doc_id: String?,
-    val summaryfeatures: Map<String, Any>?) {}
+    val summaryfeatures: Map<String, Any>?, val group_doc_id_relevance: Float?) {}
