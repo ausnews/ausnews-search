@@ -5,6 +5,7 @@ from scrapy.http import Request
 from RISJbot.utils import NewsSitemap
 from scrapy.utils.sitemap import sitemap_urls_from_robots
 from scrapy.spiders.sitemap import iterloc
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +56,10 @@ class NewsSitemapSpider(SitemapSpider):
                     for r, c in self._cbs:
                         if r.search(loc):
                             try:
+                                # These "live" urls aren't real articles
+                                if re.search(r'theguardian\.com\/.*\/live\/', loc) is not None:
+                                    self.logger.debug("Skipping URL {}".format(loc))
+                                    break
                                 self.logger.debug(f'Queuing {loc}')
                                 yield self.url_to_request(loc,
                                                           callback=c,
