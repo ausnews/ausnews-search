@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import com.yahoo.docproc.DocumentProcessor
 import com.yahoo.docproc.Processing
 import com.yahoo.document.*
+import com.yahoo.document.datatypes.DoubleFieldValue
 import com.yahoo.language.Linguistics
 import com.yahoo.search.searchchain.ExecutionFactory
 import com.yahoo.document.datatypes.LongFieldValue
@@ -114,10 +115,12 @@ class ArticleProcessor @Inject constructor(
             logger.info("Got hits: " + hits.size)
             if (hits.isEmpty()) return
             var topic: String? = null
+            var relevance: Double = 0.0
             for (hit in hits) {
                 if (hit.isMeta) continue
                 if (hit.getField(GROUP_FIELD_NAME) != null) {
                     topic = hit.getField(GROUP_FIELD_NAME).toString()
+                    relevance = hit.relevance.score
                     break
                 }
             }
@@ -130,7 +133,9 @@ class ArticleProcessor @Inject constructor(
                 is DocumentUpdate -> {
                     val fieldUpdate =
                         FieldUpdate.createAssign(operation.documentType.getField(GROUP_FIELD_NAME), StringFieldValue(t))
+                    val fieldRelevanceUpdate = FieldUpdate.createAssign(operation.documentType.getField(GROUP_FIELD_RELEVANCE_NAME), DoubleFieldValue(relevance))
                     operation.addFieldUpdate(fieldUpdate)
+                    operation.addFieldUpdate(fieldRelevanceUpdate)
                 }
             }
             val type = when (operation) {
@@ -142,6 +147,7 @@ class ArticleProcessor @Inject constructor(
                 val docId = hit.getField("documentid").toString()
                 val update = DocumentUpdate(type, docId)
                 val fieldValue = StringFieldValue(t)
+                update.addFieldUpdate(FieldUpdate.createAssign(type.getField(GROUP_FIELD_RELEVANCE_NAME), DoubleFieldValue(hit.relevance.score)))
                 update.addFieldUpdate(FieldUpdate.createAssign(type.getField(GROUP_FIELD_NAME), fieldValue))
                 val relevance = hit.relevance.score
                 logger.info("Set group_doc_id to $fieldValue for $docId. Relevance: $relevance")
@@ -155,6 +161,7 @@ class ArticleProcessor @Inject constructor(
     companion object {
         private val logger = Logger.getLogger(ArticleProcessor::class.java.name)
         private const val GROUP_FIELD_NAME = "group_doc_id"
+        private const val GROUP_FIELD_RELEVANCE_NAME = "group_doc_id_relevance"
         private const val TWITTER_FIELD_NAME = "twitter_link"
         private const val REQ_ID = "reqId"
         private const val SAME_STORY_TIMELIMIT = 60L * 60L * 6L

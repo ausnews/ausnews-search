@@ -59,6 +59,9 @@ schema newsarticle {
         field group_doc_id type string {
             indexing: attribute | summary
         }
+        field group_doc_id_relevance type double {
+            indexing: attribute | summary
+        }
     }
 
     fieldset default {
