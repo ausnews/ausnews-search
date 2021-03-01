@@ -44,7 +44,7 @@ class ABCAUSpider(NewsRSSFeedSpider):
         l.add_value('bylines', list(map(lambda x: x.get(), response.xpath("//span[@data-component='Byline']//span[@data-component='Text']//a/text()"))))
         l.add_value('headline', response.xpath("//h1[@data-component='Headline']/text()"))
         bodytext = ""
-        for r in response.xpath('//div[@id="body"]//text()'):
+        for r in response.xpath('//div[@id="body"]//p//text()'):
             bodytext += r.extract()
         l.add_value('bodytext', bodytext)
         #l.add_xpath('keywords',

@@ -60,6 +60,9 @@ class NewsSitemapSpider(SitemapSpider):
                                 if re.search(r'theguardian\.com\/.*\/live\/', loc) is not None:
                                     self.logger.debug("Skipping URL {}".format(loc))
                                     break
+                                if re.search(r'theguardian\.com/.*morning-mail', loc) is not None:
+                                    self.logger.debug("Skipping URL, morning mail: {}".format(loc))
+                                    break
                                 self.logger.debug(f'Queuing {loc}')
                                 yield self.url_to_request(loc,
                                                           callback=c,
