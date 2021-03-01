@@ -59,6 +59,17 @@
         <nodes>
             CONTENT
         </nodes>
+        <engine>
+            <proton>
+                <tuning>
+                    <searchnode>
+                        <requestthreads>
+                            <persearch>4</persearch>
+                        </requestthreads>
+                    </searchnode>
+                </tuning>
+            </proton>
+        </engine>
     </content>
 
 </services>
