@@ -1,7 +1,7 @@
-![Build and deploy the search engine](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20the%20search%20engine/badge.svg)<br/>
-![Build and deploy the Web API](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20the%20Web%20API/badge.svg)<br/>
-![Build and deploy site on www.ausnews.org](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20site%20on%20www.ausnews.org/badge.svg)<br/>
-![Build and deploy spiders](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20spiders/badge.svg) <br/>
+[![Build and deploy the search engine](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20the%20search%20engine/badge.svg)](https://github.com/ausnews/ausnews-search/actions/workflows/vespa-app.yml)<br/>
+[![Build and deploy the Web API](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20the%20Web%20API/badge.svg)](https://github.com/ausnews/ausnews-search/actions/workflows/web-api.yml)<br/>
+[![Build and deploy site on www.ausnews.org](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20site%20on%20www.ausnews.org/badge.svg)](https://github.com/ausnews/ausnews-search/actions/workflows/site.yml)<br/>
+[![Build and deploy spiders](https://github.com/ausnews/ausnews-search/workflows/Build%20and%20deploy%20spiders/badge.svg)](https://github.com/ausnews/ausnews-search/actions/workflows/spiders.yml) <br/>
 [![Build and deploy augmenter](https://github.com/ausnews/ausnews-search/actions/workflows/augmenter.yml/badge.svg)](https://github.com/ausnews/ausnews-search/actions/workflows/augmenter.yml)
 
 # AUSNews Search
@@ -28,6 +28,10 @@ The web API constructs vespa queries (YQL) as used by the site, to make the abov
 
 ### Ranking & Search
 Ranking is fairly simple and straightforward to begin with. It has extremely good stemming and other linguistic capabilities, and uses bm-25 algorithm combined with article "freshness" for ranking. This can be improved over time, but the aim here is to rank news articles on properties that cannot be simply gamed.
+
+Ranking of "Top News" takes into account the published time, and social media activity. Articles are linked by relevance when doing document processing, and then [grouped](https://github.com/ausnews/ausnews-search/blob/2ce1d7aec94e0fb680a606c2da3ee71deb4d20a5/web-api/src/main/kotlin/web/api/SearchClient.kt#L41) in the top news results. This is similar to clicking "Related" on a story - but is stricter on time and relevance.
+
+Ranking of "Top Articles" also takes into account social media, but per-article - not per group of relevant articles.
 
 ### Performance & Scale
 AUSNews Search can handle 1400+ queries/second on just two vespa container and three content nodes, with a fairly limited dataset (~10,000 articles). Mean response rate from vespa <b>under 10ms</b>. This is with almost no tuning - performance can certainly be improved. Performance is unlikely to be affected with scale.
@@ -140,6 +144,8 @@ A [Scrapy](scrapy.org) crawler. Currently searches
 - canberratimes.com.au
 - theage.com.au
 - thewest.com.au
+- itnews.com.au
+- zdnet Australian content
 - Straightforward to add more.
 
 The crawler runs periodically and feeds content straight into the search engine for processing. When crawling, it currently feeds about 16 articles per second.
