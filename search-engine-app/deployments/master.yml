@@ -17,8 +17,6 @@ spec:
         app: vespa
         name: vespa-internal
     spec:
-      nodeSelector:
-        cloud.google.com/gke-nodepool: default-pool
       containers:
       - name: vespa
         ports:
