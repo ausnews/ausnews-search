@@ -7,9 +7,6 @@ on:
     - 'web-api/**'
 
 env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: vespa
-  GKE_ZONE: australia-southeast1-c
   IMAGE: ausnews-web-api
   DEPLOYMENT_NAME: ausnews-web-api
 
@@ -23,27 +20,20 @@ jobs:
     name: Setup, Build, Publish, and Deploy Web API
     runs-on: ubuntu-latest
     steps:
-
     - name: Checkout
       uses: actions/checkout@v2
-      
 
-    # Setup gcloud CLI
-    - uses: google-github-actions/setup-gcloud@v0.2.0
+    - name: login to dockerhub
+      uses: docker/login-action@v1
       with:
-        service_account_key: ${{ secrets.GKE_SA_KEY }}
-        project_id: ${{ secrets.GKE_PROJECT }}
-    
-    # Configure docker to use the gcloud command-line tool as a credential helper
-    - run: |-
-        gcloud --quiet auth configure-docker
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    # Get the GKE credentials so we can deploy to the cluster
-    - uses: google-github-actions/get-gke-credentials@v0.2.1
+    - name: Kubernetes set context
+      uses: Azure/k8s-set-context@v1
       with:
-        cluster_name: ${{ env.GKE_CLUSTER }}
-        location: ${{ env.GKE_ZONE }}
-        credentials: ${{ secrets.GKE_SA_KEY }}
+        method: kubeconfig
+        kubeconfig: ${{ secrets.LINODE_KUBE_CONFIG }}
         
     - uses: actions/setup-java@v1
       with:
@@ -66,12 +56,12 @@ jobs:
     - name: Build Docker image
       run: |-
         ./gradlew jibDockerBuild
-        docker tag ausnews-web-api "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
+        docker tag ausnews-web-api ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:${{ github.sha }}
 
-    # Push the Docker image to Google Container Registry
+    # Push the Docker image to dockerhub
     - name: Publish
       run: |-
-        docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:${{ github.sha }}
 
     # Set up kustomize
     - name: Set up Kustomize
@@ -79,10 +69,10 @@ jobs:
         curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
         chmod u+x ./kustomize
 
-    # Deploy the Docker image to the GKE cluster
+    # Deploy the Docker image to the k8s cluster
     - name: Deploy
       run: |-
-        ./kustomize edit set image ausnews-web-api=gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
+        ./kustomize edit set image ausnews-web-api=${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:${{ github.sha }}
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide

@@ -7,9 +7,6 @@ on:
     - 'augmenter/**'
 
 env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: vespa
-  GKE_ZONE: australia-southeast1-c
   IMAGE: aunews-augmenter
   DEPLOYMENT_NAME: augmenter
   #todo: move these to k8s secrets
@@ -29,25 +26,18 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v2
-      
 
-    # Setup gcloud CLI
-    - uses: google-github-actions/setup-gcloud@v0.2.0
+    - name: login to dockerhub
+      uses: docker/login-action@v1
       with:
-        service_account_key: ${{ secrets.GKE_SA_KEY }}
-        project_id: ${{ secrets.GKE_PROJECT }}
-    
-    # Configure docker to use the gcloud command-line tool as a credential helper
-    - run: |-
-        gcloud --quiet auth configure-docker
-        echo "/usr/bin" >> $GITHUB_PATH
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    # Get the GKE credentials so we can deploy to the cluster
-    - uses: google-github-actions/get-gke-credentials@v0.2.1
+    - name: Kubernetes set context
+      uses: Azure/k8s-set-context@v1
       with:
-        cluster_name: ${{ env.GKE_CLUSTER }}
-        location: ${{ env.GKE_ZONE }}
-        credentials: ${{ secrets.GKE_SA_KEY }}
+        method: kubeconfig
+        kubeconfig: ${{ secrets.LINODE_KUBE_CONFIG }}
 
     # Build the Docker image
     - name: Build Docker image
@@ -55,15 +45,15 @@ jobs:
         sed -i "s/TWITTER_API_KEY/$TWITTER_API_KEY/g"  ./twitter.py
         sed -i "s/TWITTER_API_SECRET/$TWITTER_API_SECRET/g"  ./twitter.py
         echo "$PATH"
-        docker build -t gcr.io/"$PROJECT_ID"/"$IMAGE":"$GITHUB_SHA" \
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:${{ github.sha }} \
           --build-arg env=production \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" .
 
-    # Push the Docker image to Google Container Registry
+    # Push the Docker image to dockerhub
     - name: Publish
       run: |-
-        docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:${{ github.sha }}
 
     # Set up kustomize
     - name: Set up Kustomize
@@ -71,9 +61,9 @@ jobs:
         curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
         chmod u+x ./kustomize
 
-    # Deploy the Docker image to the GKE cluster
+    # Deploy to k8s
     - name: Deploy
       run: |-
-        ./kustomize edit set image aunews-augmenter=gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
+        ./kustomize edit set image aunews-augmenter=${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:${{ github.sha }}
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
