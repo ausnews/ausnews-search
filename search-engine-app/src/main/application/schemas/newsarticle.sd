@@ -89,6 +89,15 @@ schema newsarticle {
         }
     }
 
+    rank-profile top_news {
+        rank-properties {
+            freshness(firstpubtime).maxAge: 86400
+        }
+        first-phase {
+            expression: freshness(firstpubtime) * attribute(twitter_favourite_count)
+        }
+    }
+
     rank-profile twitter inherits bm25_freshness {
         rank-properties {
           query(twitterFavourite): 0.3
