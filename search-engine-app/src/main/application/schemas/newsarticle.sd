@@ -97,7 +97,7 @@ schema newsarticle {
             expression: freshness(firstpubtime) * attribute(twitter_favourite_count)
         }
 
-        summary-features: query(freshness(firstpubtime))
+        summary-features: freshness(firstpubtime)
     }
 
     rank-profile twitter inherits bm25_freshness {
