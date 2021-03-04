@@ -40,7 +40,7 @@ jobs:
     - name: Build Docker image
       run: |-
         docker build --tag ausnews/spiders:${{ github.sha }} .
-        docker push ausnews/spiders:${{ github.sha }} .
+        docker push ausnews/spiders:${{ github.sha }}
 
     # Set up kustomize
     - name: Set up Kustomize
