@@ -10,19 +10,19 @@ export class NewsSearchApiService {
   getTopNews() {
     var firstpubtime = (new Date().getTime()) / 1000;
     firstpubtime -= 24 * 60 * 60;
-    const url = `https://search.ausnews.org/search?q=twitter_favourite_count%3A%3E1+firstpubtime%3A%3E${firstpubtime}&h=20&ranking=twitter&twitterWeight=1&twitterRetweetWeight=1&twitterFavouriteWeight=0.1&freshnessWeight=130`
+    const url = `https://s.ausnews.org/search?q=twitter_favourite_count%3A%3E1+firstpubtime%3A%3E${firstpubtime}&h=20&ranking=twitter&twitterWeight=1&twitterRetweetWeight=1&twitterFavouriteWeight=0.1&freshnessWeight=130`
     return this.http.get(url);
   }
 
   getTopics() {
     /*var firstpubtime = (new Date().getTime()) / 1000;
     firstpubtime -= 24 * 60 * 60;*/
-    const url = `https://search.ausnews.org/search/topics`
+    const url = `https://s.ausnews.org/search/topics`
     return this.http.get(url);
   }
 
   getSearchResults(query: String, bylines: String, source: String = null, start: Date, end: Date, sources: string) {
-    var url = `https://search.ausnews.org/search?q=${query}&h=20`;
+    var url = `https://s.ausnews.org/search?q=${query}&h=20`;
     if (bylines != null && bylines.length > 0) {
       url += `&b=${bylines}`;
     }
@@ -42,7 +42,7 @@ export class NewsSearchApiService {
   }
 
   getRelated(id: String) {
-    var url = `https://search.ausnews.org/search/related?id=${id}`;
+    var url = `https://s.ausnews.org/search/related?id=${id}`;
     return this.http.get(url);
   }
 }
