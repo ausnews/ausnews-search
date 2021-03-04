@@ -15,7 +15,7 @@ class TwitterInserter:
     
     def run(self):
         try:
-            config.load_incluster_config
+            config.load_incluster_config()
         except:
             config.load_kube_config()
         v1 = client.CoreV1Api()
