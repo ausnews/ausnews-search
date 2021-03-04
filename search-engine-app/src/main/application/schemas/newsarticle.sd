@@ -91,7 +91,8 @@ schema newsarticle {
 
     rank-profile top_news {
         rank-properties {
-            query(freshness(firstpubtime).maxAge): 86400
+            freshness(firstpubtime).maxAge: 86400
+            freshness.maxAge: 86400
         }
         first-phase {
             expression: freshness(firstpubtime) * attribute(twitter_favourite_count)
