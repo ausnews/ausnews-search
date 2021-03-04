@@ -22,7 +22,7 @@ class TwitterInserter:
         twitter_secrets = v1.read_namespaced_secret(name='twitter-secrets', namespace='default').data
         api_key = base64.b64decode(twitter_secrets["api-key"]).decode('utf-8')
         api_secret = base64.b64decode(twitter_secrets["api-secret"]).decode('utf-8')
-        self.vespa = Vespa(url = "http://localhost", port = 8080)
+        self.vespa = Vespa(url = "http://vespa-search", port = 8080)
         auth = tweepy.AppAuthHandler(api_key, api_secret)
         self.api = tweepy.API(auth)
         updated = 0
