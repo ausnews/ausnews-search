@@ -187,9 +187,9 @@ ng serve
 
 Note that you can do local dev of individual components against live k8s deployments, even the internal vespa nodes, by port-forwarding with kubectl.
 
-## GKE Deployment
+## GKE/K8s Deployment
 
-Make sure you have `gcloud` setup and are authenticated for your chosen account. Create your cluster:
+Ensure you have kubectl context correct. Create your cluster:
 ```
 cd search-engine-app
 ./scripts/create_cluster.sh
@@ -214,6 +214,18 @@ cd ../web-api
 ./gradlew jibDockerBuild
 docker push ausnews-web-api
 kubectl apply -f deployment/web-api.yml -f deployment/service.yml
+```
+
+Build & Deploy the augmenter. Set $TWITTER_API_KEY and $TWITTER_API_SECRET with your twitter creds.
+```
+cd ../augmenter
+kubectl create secret generic twitter-secrets \
+  --from-literal=api-key=$TWITTER_API_KEY \
+  --from-literal=api-secret=$TWITTER_API_SECRET
+
+docker build -t aunews-augmenter .
+docker push aunews-augmenter
+kubectl apply -f deployment/scrapy.yml
 ```
 
 Run the site locally, setting the external endpoint to the web api's service (either port-forward, or annotate the service to make it an external IP)

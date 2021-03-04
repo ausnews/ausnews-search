@@ -9,9 +9,6 @@ on:
 env:
   IMAGE: aunews-augmenter
   DEPLOYMENT_NAME: augmenter
-  #todo: move these to k8s secrets
-  TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
-  TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
 
 defaults:
   run:
@@ -42,9 +39,6 @@ jobs:
     # Build the Docker image
     - name: Build Docker image
       run: |-
-        sed -i "s/TWITTER_API_KEY/$TWITTER_API_KEY/g"  ./twitter.py
-        sed -i "s/TWITTER_API_SECRET/$TWITTER_API_SECRET/g"  ./twitter.py
-        echo "$PATH"
         docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:${{ github.sha }} \
           --build-arg env=production \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \

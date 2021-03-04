@@ -6,16 +6,21 @@ import hashlib
 from urllib.request import urlopen
 import requests
 import re
+from kubernetes import client, config
+import base64
 
 logger = logging.getLogger(__name__)
 
 class TwitterInserter:
-    api_key = "TWITTER_API_KEY"
-    api_secret = "TWITTER_API_SECRET"
     
     def run(self):
-        self.vespa = Vespa(url = "http://vespa-search", port = 8080)
-        auth = tweepy.AppAuthHandler(self.api_key, self.api_secret)
+        config.load_kube_config()
+        v1 = client.CoreV1Api()
+        twitter_secrets = v1.read_namespaced_secret(name='twitter-secrets', namespace='default').data
+        api_key = base64.b64decode(twitter_secrets["api-key"])
+        api_secret = base64.b64decode(twitter_secrets["api-secret"])
+        self.vespa = Vespa(url = "http://localhost", port = 8080)
+        auth = tweepy.AppAuthHandler(api_key, api_secret)
         self.api = tweepy.API(auth)
         updated = 0
         for userid in ['abcnews', 'GuardianAus', 'smh', 'iTnews_au', 'theage', 'canberratimes', 'zdnetaustralia', 'newscomauHQ', 'westaustralian', 'SBSNews', 'australian', 'crikey_news', '9NewsAUS']:
@@ -36,6 +41,7 @@ class TwitterInserter:
 #                    else:
 #                        self.insert_document(url)
             except Exception as e:
+                print("fuck {}".format(e))
                 continue
         print("Completed run, updated {} tweets".format(updated))
 
