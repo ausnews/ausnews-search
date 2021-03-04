@@ -14,7 +14,10 @@ logger = logging.getLogger(__name__)
 class TwitterInserter:
     
     def run(self):
-        config.load_kube_config()
+        try:
+            config.load_incluster_config
+        except:
+            config.load_kube_config()
         v1 = client.CoreV1Api()
         twitter_secrets = v1.read_namespaced_secret(name='twitter-secrets', namespace='default').data
         api_key = base64.b64decode(twitter_secrets["api-key"]).decode('utf-8')
