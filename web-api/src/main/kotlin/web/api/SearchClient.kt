@@ -38,11 +38,11 @@ interface SearchClient {
     @Get("/search/")
     public fun topics(
         @QueryValue yql: String = "select * from sources newsarticle WHERE firstpubtime > @firstpubtime and group_doc_id matches \"^id\" and twitter_favourite_count > 0;",
-        @QueryValue select: String = "all(group(group_doc_id) max(15) order(-sum(twitter_favourite_count)) each(max(3) each(output(summary()))))",
+        @QueryValue select: String = "all(group(group_doc_id) max(15) order(-avg(relevance())) each(max(3) each(output(summary()))))",
         @QueryValue("presentation.timing") timing: String = "true",
         @QueryValue hits: String = "0",
         @QueryValue firstpubtime: Long = Instant.now().epochSecond - 86400,
-        @QueryValue("ranking.profile") ranking: String = "twitter"): SearchResponse
+        @QueryValue("ranking.profile") ranking: String = "top_news"): SearchResponse
 }
 
 data class SearchResponse(val root: SearchRootElement, val timing: Map<String, Any>) {}
