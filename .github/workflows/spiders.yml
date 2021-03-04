@@ -51,6 +51,6 @@ jobs:
     # Deploy the Docker image
     - name: Deploy
       run: |-
-        ./kustomize edit set image aunews-scrapy=ausnews/spiders:${{ github.sha }} .
+        ./kustomize edit set image aunews-scrapy=ausnews/spiders:${{ github.sha }}
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
