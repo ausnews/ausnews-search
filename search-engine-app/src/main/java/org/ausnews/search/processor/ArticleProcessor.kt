@@ -5,6 +5,7 @@ import com.yahoo.docproc.DocumentProcessor
 import com.yahoo.docproc.Processing
 import com.yahoo.document.*
 import com.yahoo.document.datatypes.DoubleFieldValue
+import com.yahoo.document.datatypes.IntegerFieldValue
 import com.yahoo.language.Linguistics
 import com.yahoo.search.searchchain.ExecutionFactory
 import com.yahoo.document.datatypes.LongFieldValue
@@ -71,8 +72,34 @@ class ArticleProcessor @Inject constructor(
         }
         deferredActions[id.toString()] = GlobalScope.async {
             addTopicToRelatedArticles(operation)
+            addTwitterDefaults(operation, id)
         }
         return Progress.LATER
+    }
+
+    private suspend fun addTwitterDefaults(operation: DocumentOperation, id: DocumentId) {
+        when (operation) {
+            is DocumentPut -> {
+                val doc = operation.document
+                doc.setFieldValue(doc.dataType.getField("twitter_retweet_count"), IntegerFieldValue(0))
+                doc.setFieldValue(doc.dataType.getField("twitter_favourite_count"), IntegerFieldValue(0))
+            }
+            is DocumentUpdate -> {
+                val session = documentAccess.createSyncSession(SyncParameters.Builder().build())
+                val d = session[id]
+                if (d == null) { // Document doesn't exist yet, so set twitter values to 0
+                    val retweetUpdate =
+                        FieldUpdate.createAssign(operation.documentType.getField("twitter_retweet_count"), IntegerFieldValue(0))
+                    val favouriteUpdate = FieldUpdate.createAssign(
+                        operation.documentType.getField("twitter_favourite_count"),
+                        IntegerFieldValue(0)
+                    )
+                    operation.addFieldUpdate(retweetUpdate)
+                    operation.addFieldUpdate(favouriteUpdate)
+                }
+                session.destroy()
+            }
+        }
     }
 
     private suspend fun addTopicToRelatedArticles(operation: DocumentOperation) {
@@ -149,8 +176,8 @@ class ArticleProcessor @Inject constructor(
                 val fieldValue = StringFieldValue(t)
                 update.addFieldUpdate(FieldUpdate.createAssign(type.getField(GROUP_FIELD_RELEVANCE_NAME), DoubleFieldValue(hit.relevance.score)))
                 update.addFieldUpdate(FieldUpdate.createAssign(type.getField(GROUP_FIELD_NAME), fieldValue))
-                val relevance = hit.relevance.score
-                logger.info("Set group_doc_id to $fieldValue for $docId. Relevance: $relevance")
+                val hitRelevance = hit.relevance.score
+                logger.info("Set group_doc_id to $fieldValue for $docId. Relevance: $hitRelevance")
                 asyncSession.update(update)
             }
         } catch (e: Exception) {
