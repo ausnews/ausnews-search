@@ -43,6 +43,15 @@ interface SearchClient {
         @QueryValue hits: String = "0",
         @QueryValue firstpubtime: Long = Instant.now().epochSecond - 86400,
         @QueryValue("ranking.profile") ranking: String = "top_news"): SearchResponse
+
+    @Get("/search/")
+    public fun top_authors(
+        @QueryValue yql: String = "select * from sources newsarticle WHERE firstpubtime > @firstpubtime AND twitter_favourite_count > 0 AND !(bylines contains \"ABC News\");",
+        @QueryValue select: String = "all(group(bylines) max(15) order(-sum(twitter_favourite_count)) each(max(3) each(output(summary()))))",
+        @QueryValue("presentation.timing") timing: String = "true",
+        @QueryValue hits: String = "0",
+        @QueryValue firstpubtime: Long = Instant.now().epochSecond - 86400 * 7,
+        @QueryValue("ranking.profile") ranking: String = "top_news"): SearchResponse
 }
 
 data class SearchResponse(val root: SearchRootElement, val timing: Map<String, Any>) {}
