@@ -39,7 +39,7 @@ schema newsarticle {
             indexing:  summary
         }
         field bylines type array<string> {
-            indexing:  index | summary
+            indexing:  index | summary | attribute
         }
         field source type string {
             indexing:  index | summary | attribute
