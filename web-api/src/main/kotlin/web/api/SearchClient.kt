@@ -51,7 +51,7 @@ interface SearchClient {
         @QueryValue("presentation.timing") timing: String = "true",
         @QueryValue hits: String = "0",
         @QueryValue firstpubtime: Long = Instant.now().epochSecond - 86400 * 7,
-        @QueryValue("ranking.profile") ranking: String = "top_news"): SearchResponse
+        @QueryValue("ranking.profile") ranking: String = "time"): SearchResponse
 }
 
 data class SearchResponse(val root: SearchRootElement, val timing: Map<String, Any>) {}
