@@ -19,8 +19,8 @@ export class SearchResultsComponent implements OnInit {
 
   constructor(private router: Router, private route: ActivatedRoute, private searchApi: NewsSearchApiService) {}
 
-  search(query, bylines, source, start = null, end = null, sources = null) {
-    this.searchApi.getSearchResults(query, bylines, source, start, end, sources).subscribe(data => { 
+  search(query, bylines, source, start = null, end = null, sources = null, ranking = null) {
+    this.searchApi.getSearchResults(query, bylines, source, start, end, sources, ranking).subscribe(data => { 
       const allData = data as Array<any>;
       this.timing = allData["timing"];
       const groupData = allData["results"].filter(i => { return i.id.startsWith("group:root") });
@@ -97,7 +97,7 @@ export class SearchResultsComponent implements OnInit {
         this.related(queryParams['id']);
       } else if (queryParams['topic'] != null) {
         this.topics = true;
-        this.search("group_doc_id:" + queryParams['topic'], null, null)
+        this.search("group_doc_id:" + queryParams['topic'], null, null, null, null, null, "time");
       } else if (queryParams['q'] == null) {
         this.top();
       } else {

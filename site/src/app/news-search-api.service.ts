@@ -21,7 +21,12 @@ export class NewsSearchApiService {
     return this.http.get(url);
   }
 
-  getSearchResults(query: String, bylines: String, source: String = null, start: Date, end: Date, sources: string) {
+  getAuthors() {
+    const url = `https://s.ausnews.org/search/authors`
+    return this.http.get(url);
+  }
+
+  getSearchResults(query: String, bylines: String, source: String = null, start: Date, end: Date, sources: string, ranking: string = null) {
     var url = `https://s.ausnews.org/search?q=${query}&h=20`;
     if (bylines != null && bylines.length > 0) {
       url += `&b=${bylines}`;
@@ -31,6 +36,9 @@ export class NewsSearchApiService {
     }
     if (start && end) {
       url += `&r=${start.getTime() / 1000}&e=${end.getTime() / 1000}`;
+    }
+    if (ranking) {
+      url += `&ranking=${ranking}`
     }
     if (sources && sources.length > 0) {
       const mSources = JSON.parse(sources);

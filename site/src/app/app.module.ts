@@ -24,12 +24,14 @@ import { NewsTopicsComponent } from './news-topics/news-topics.component';
 import { MomentModule } from 'ngx-moment';
 import {MatTabsModule} from '@angular/material/tabs';
 import { SearchFormComponent } from './search-form/search-form.component';
+import { SearchTopAuthorsComponent } from './news-authors/news-top-authors.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchResultsComponent,
     NewsTopicsComponent,
+    SearchTopAuthorsComponent,
     SearchFormComponent
   ],
   imports: [

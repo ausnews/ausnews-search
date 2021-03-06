@@ -1,0 +1,18 @@
+<div fxLayout="row" fxLayoutAlign="center">
+<div fxLayout="column" fxLayoutAlign="center center" fxFlex="60" fxFlex.lt-md="100%">
+    <mat-card class="card" *ngFor="let author of mAuthors">
+        <mat-card-header>
+            <mat-card-title><button mat-stroked-button routerLink="/search/" [queryParams]="{q: 'bylines:&quot;' + author.value + '&quot;', ranking: 'time'}">{{author.value}}</button></mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div *ngFor="let article of author.children[0].children">
+                <p>
+                    <a target="_new" class="heading-link" href='{{article.fields.url}}'><strong>{{article.fields.headline}}</strong> - {{article.fields.firstpubtime * 1000 | amTimeAgo}}</a><br/>
+                        {{article.fields.abstract}}<br/>
+                    <span class="mat-caption">{{article.fields.source}}</span>
+                <p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+</div>

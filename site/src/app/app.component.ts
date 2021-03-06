@@ -10,7 +10,7 @@ import {MatAccordion} from '@angular/material/expansion';
 })
 export class AppComponent {
   title = 'AUSNews Search';
-  links: {[key: string]: string} = {'Top News': '', 'Top Articles': '/articles'}
+  links: {[key: string]: string} = {'Top News': '', 'Top Articles': '/articles', 'Top Authors': '/authors'}
   activeLink = this.links['Top News'];
   
   constructor(private route: ActivatedRoute) {}

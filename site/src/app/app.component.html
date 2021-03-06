@@ -19,8 +19,8 @@
 </mat-toolbar>
 
 <nav mat-tab-nav-bar>
-  <a routerLink="{{link.value}}" mat-tab-link *ngFor="let link of links | keyvalue : sortLinks"
-    (click)="activeLink = link.value" [active]="activeLink == link.value">{{link.key}}</a>
-  <a routerLink="/searchf" mat-tab-link (click)="activeLink = '/searchf'" [active]='activeLink == "/searchf"' fxHide fxShow.lt-md>Search</a>  
+  <a [routerLink]="link.value" [routerLinkActiveOptions]="{exact:true}" mat-tab-link *ngFor="let link of links | keyvalue : sortLinks"
+    routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">{{link.key}}</a>
+  <a routerLink="/searchf" mat-tab-link (click)="activeLink = '/searchf'" [active]='activeLink == "/searchf"'fxHide fxShow.lt-md>Search</a>  
 </nav>
 <router-outlet></router-outlet>
