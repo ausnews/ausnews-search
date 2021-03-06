@@ -46,7 +46,7 @@ interface SearchClient {
 
     @Get("/search/")
     public fun top_authors(
-        @QueryValue yql: String = "select * from sources newsarticle WHERE firstpubtime > @firstpubtime AND twitter_favourite_count > 0 AND !(bylines contains \"ABC News\") AND !(bylines contains \"Guardian staff\";",
+        @QueryValue yql: String = "select * from sources newsarticle WHERE firstpubtime > @firstpubtime AND twitter_favourite_count > 0 AND !(bylines contains \"ABC News\") AND !(bylines contains \"Guardian staff\");",
         @QueryValue select: String = "all(group(bylines) max(15) order(-sum(twitter_favourite_count)) each(max(3) each(output(summary()))))",
         @QueryValue("presentation.timing") timing: String = "true",
         @QueryValue hits: String = "0",
