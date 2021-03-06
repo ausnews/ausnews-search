@@ -89,6 +89,12 @@ schema newsarticle {
         }
     }
 
+    rank-profile time {
+        first-phase {
+            expression: attribute(firstpubtime)
+        }
+    }
+
     rank-profile top_news {
         rank-properties {
             freshness(firstpubtime).maxAge: 172800
