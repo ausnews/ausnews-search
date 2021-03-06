@@ -50,7 +50,7 @@ class SearchController(private val searchClient: SearchClient) {
         return Result(result.timing, result.root.children)
     }
 
-    @Get("/search/topics")
+    @Get("/search/authors")
     fun getAuthors(): Result {
         val result = searchClient.top_authors()
         return Result(result.timing, result.root.children)
