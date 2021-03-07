@@ -100,7 +100,7 @@ schema newsarticle {
             freshness(firstpubtime).maxAge: 172800
         }
         first-phase {
-            expression: freshness(firstpubtime) * attribute(twitter_favourite_count)
+            expression: freshness(firstpubtime) * max(1, attribute(twitter_favourite_count))
         }
 
         summary-features: freshness(firstpubtime)
