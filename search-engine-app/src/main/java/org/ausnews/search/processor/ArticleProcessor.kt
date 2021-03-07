@@ -87,7 +87,7 @@ class ArticleProcessor @Inject constructor(
             is DocumentUpdate -> {
                 val session = documentAccess.createSyncSession(SyncParameters.Builder().build())
                 val d = session[id]
-                if (d == null) { // Document doesn't exist yet, so set twitter values to 0
+                if (d?.getField("twitter_favourite_count") == null) {
                     val retweetUpdate =
                         FieldUpdate.createAssign(operation.documentType.getField("twitter_retweet_count"), IntegerFieldValue(0))
                     val favouriteUpdate = FieldUpdate.createAssign(
