@@ -97,7 +97,7 @@ export class SearchResultsComponent implements OnInit {
         this.related(queryParams['id']);
       } else if (queryParams['topic'] != null) {
         this.topics = true;
-        this.search("group_doc_id:" + queryParams['topic'], null, null, null, null, null, "time");
+        this.search("group_doc_id:" + queryParams['topic'], null, null, null, null, null, "top_news");
       } else if (queryParams['q'] == null) {
         this.top();
       } else {
