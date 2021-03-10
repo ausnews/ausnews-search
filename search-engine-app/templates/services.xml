@@ -51,7 +51,7 @@
             <min_length>300</min_length>
         </config>
 
-        <redundancy reply-after='1'>1</redundancy>
+        <redundancy>2</redundancy>
         <documents>
             <document type='newsarticle' mode="index"/>
             <document-processing cluster="text_search"/>
