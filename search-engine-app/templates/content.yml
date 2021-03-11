@@ -32,9 +32,9 @@ spec:
           mountPath: /opt/vespa/var
         resources:
           requests:
-            memory: "2G"
+            memory: "4G"
           limits:
-            memory: "2G"
+            memory: "6G"
   volumeClaimTemplates:
   - metadata:
       name: vespa-var-content

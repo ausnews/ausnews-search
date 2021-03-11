@@ -20,7 +20,7 @@ spec:
           imagePullPolicy: Always
           resources:
             requests:
-              memory: "600Mi"
+              memory: "256Mi"
             limits:
               memory: "600Mi"
 #      nodeSelector:
