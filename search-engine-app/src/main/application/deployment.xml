@@ -1,0 +1,6 @@
+<deployment version="1.0">
+    <prod>
+        <region active="true">aws-us-west-1c</region>
+        <test>aws-us-west-1c</test>
+    </prod>
+</deployment>

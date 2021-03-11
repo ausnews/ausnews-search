@@ -29,9 +29,7 @@
 
         <!-- <component id="com.yahoo.language.simple.SimpleLinguistics"/> -->
 
-        <nodes jvmargs="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:8998">
-            <node hostalias="node1"/>
-        </nodes>
+        <nodes count="2"/>
 
     </container>
 
@@ -45,14 +43,12 @@
             <min_length>300</min_length>
         </config>
 
-        <redundancy reply-after='1'>1</redundancy>
+        <redundancy>1</redundancy>
         <documents>
             <document type='newsarticle' mode="index"/>
             <document-processing cluster="text_search"/>
         </documents>
-        <nodes>
-            <node distribution-key='0' hostalias='node1'/>
-        </nodes>
+        <nodes count="2" />
     </content>
 
 </services>

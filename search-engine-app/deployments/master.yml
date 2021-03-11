@@ -43,9 +43,9 @@ spec:
             name: vespa-config
         resources:
           requests:
-            memory: "4G"
+            memory: "6G"
           limits:
-            memory: "4G"
+            memory: "6G"
   volumeClaimTemplates:
   - metadata:
       name: vespa-var
