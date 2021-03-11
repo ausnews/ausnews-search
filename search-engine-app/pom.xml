@@ -9,12 +9,21 @@
     <version>1.0</version>
     <packaging>container-plugin</packaging>  <!-- Use Vespa packaging -->
 
+    <parent>
+        <groupId>com.yahoo.vespa</groupId>
+        <artifactId>cloud-tenant-base</artifactId>
+        <version>[7,999)</version>  <!-- Use the latest Vespa release on each build -->
+        <relativePath />
+    </parent>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <test.hide>true</test.hide>
         <vespa_version>7.343.18</vespa_version>
         <junit_version>4.13.1</junit_version>
         <kotlin.version>1.4.30</kotlin.version>
+        <tenant>ausnews</tenant>                                 <!-- Name from the web console -->
+        <application>ausnews</application>
     </properties>
 
     <dependencies>

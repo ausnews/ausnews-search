@@ -21,11 +21,7 @@
             </config>
 
         </search>
-      <document-processing>
-        <chain id="default">
-          <documentprocessor id="org.ausnews.search.processor.ArticleProcessor" bundle="ausnews-search"/>
-        </chain>
-      </document-processing>
+      <document-processing/>
 
         <!-- <component id="com.yahoo.language.simple.SimpleLinguistics"/> -->
 
