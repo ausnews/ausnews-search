@@ -35,7 +35,7 @@
 
         <!-- <component id="com.yahoo.language.simple.SimpleLinguistics"/> -->
 
-        <nodes jvmargs="-Xms512m -Xmx512m">
+        <nodes>
             CONTAINER
         </nodes>
 
@@ -59,6 +59,17 @@
         <nodes>
             CONTENT
         </nodes>
+        <engine>
+            <proton>
+                <tuning>
+                    <searchnode>
+                        <requestthreads>
+                            <persearch>4</persearch>
+                        </requestthreads>
+                    </searchnode>
+                </tuning>
+            </proton>
+        </engine>
     </content>
 
 </services>
