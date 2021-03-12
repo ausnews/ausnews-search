@@ -36,7 +36,6 @@
         <!-- <component id="com.yahoo.language.simple.SimpleLinguistics"/> -->
 
         <nodes>
-            <jvm gc-options="-XX:+UseG1GC -XX:MaxTenuringThreshold=15 -Xms3g -Xmx3g"/>
             CONTAINER
         </nodes>
 
