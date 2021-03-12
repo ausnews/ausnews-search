@@ -26,7 +26,8 @@ interface SearchClient {
         @QueryValue("ranking.features.query(twitterWeight)") twitterWeight: Float?,
         @QueryValue("ranking.features.query(twitterRetweet)") twitterRetweetWeight: Float?,
         @QueryValue("ranking.features.query(twitterFavourite)") twitterFavouriteWeight: Float?,
-        @QueryValue("ranking.features.query(freshnessWeight)") freshnessWeight: Float?
+        @QueryValue("ranking.features.query(freshnessWeight)") freshnessWeight: Float?,
+        @QueryValue("ranking.matchPhase.maxHits") matchPhaseHits: Long = 10000
     ): SearchResponse
 
     @Get("/search/")
@@ -42,6 +43,7 @@ interface SearchClient {
         @QueryValue("presentation.timing") timing: String = "true",
         @QueryValue hits: String = "0",
         @QueryValue firstpubtime: Long = Instant.now().epochSecond - 86400,
+        @QueryValue("ranking.matchPhase.maxHits") matchPhaseHits: Long = 10000,
         @QueryValue("ranking.profile") ranking: String = "top_news"): SearchResponse
 
     @Get("/search/")
@@ -51,6 +53,7 @@ interface SearchClient {
         @QueryValue("presentation.timing") timing: String = "true",
         @QueryValue hits: String = "0",
         @QueryValue firstpubtime: Long = Instant.now().epochSecond - 86400 * 7,
+        @QueryValue("ranking.matchPhase.maxHits") matchPhaseHits: Long = 10000,
         @QueryValue("ranking.profile") ranking: String = "time"): SearchResponse
 }
 
