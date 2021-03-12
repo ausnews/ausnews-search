@@ -36,6 +36,7 @@
         <!-- <component id="com.yahoo.language.simple.SimpleLinguistics"/> -->
 
         <nodes>
+            <jvm gc-options="-Xms3g -Xmx3g"/>
             CONTAINER
         </nodes>
 
