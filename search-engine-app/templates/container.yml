@@ -19,6 +19,9 @@ spec:
     spec:
       containers:
       - name: vespa-container
+        ports:
+          - name: web
+            containerPort: 8080
         image: vespaengine/vespa
         imagePullPolicy: Always
         envFrom:
