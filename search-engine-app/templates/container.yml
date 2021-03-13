@@ -32,7 +32,7 @@ spec:
           privileged: true
         resources:
           requests:
-            memory: "4G"
+            memory: "3G"
           limits:
             memory: "4G"
 
