@@ -102,7 +102,7 @@ schema newsarticle {
 
         first-phase {
             keep-rank-count: 30000
-            rank-score-drop-limit: -100
+            rank-score-drop-limit: -100.0
             expression: freshness(firstpubtime) * max(10, attribute(twitter_favourite_count))
         }
 
