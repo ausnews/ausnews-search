@@ -18,13 +18,13 @@
   width: 100% !important;
 }
 
-/*a {
+a {
   text-decoration: none;
 }
 
 a:hover { 
   text-decoration: underline;
-}*/
+}
 
 .mat-button {
   font-size: 16px;
@@ -33,6 +33,12 @@ a:hover {
 }
 
 .mat-stroked-button {
+  font-size: 16px;
+  white-space: pre-wrap !important;
+  text-align: left;
+}
+
+.mat-raised-button {
   font-size: 16px;
   white-space: pre-wrap !important;
   text-align: left;
