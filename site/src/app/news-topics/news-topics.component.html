@@ -2,7 +2,10 @@
 <div fxLayout="column" fxLayoutAlign="center center" fxFlex="60" fxFlex.lt-md="100%">
     <mat-card class="card" *ngFor="let topic of mTopics">
         <mat-card-header>
-            <mat-card-title><button mat-stroked-button routerLink="/search/topic" [queryParams]="{topic: topic.children[0].children[0].fields.group_doc_id}">{{topic.children[0].children[0].fields.headline}}</button></mat-card-title>
+            <mat-card-title>
+                <button mat-raised-button color="primary" routerLink="/search/topic" [queryParams]="{topic: topic.children[0].children[0].fields.group_doc_id}">{{topic.children[0].children[0].fields.headline}}</button>
+                <button mat-stroked-button routerLink="/search/topic" [queryParams]="{topic: topic.children[0].children[0].fields.group_doc_id}" *ngIf="topic.fields['count()'] > 3" style="float: right">Full Coverage</button>
+            </mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <div *ngFor="let article of topic.children[0].children">
