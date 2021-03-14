@@ -43,3 +43,23 @@ a:hover {
   white-space: pre-wrap !important;
   text-align: left;
 }
+
+.footer-button {
+  margin-left: 15px;
+  margin-top: 5px;
+}
+
+@media(max-width: 600px)
+{
+  .mat-stroked-button {
+    font-size: 14px;
+    line-height: 25px;
+    margin-bottom: 5px;
+  }
+  
+  .mat-raised-button {
+    font-size: 14px;
+    line-height: 25px;
+    margin-bottom: 5px;
+  }
+}

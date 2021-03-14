@@ -12,7 +12,7 @@
                 <mat-card-header>
                     <mat-card-title>
                         <a target="_new" mat-stroked-button href='{{article.fields.url}}'>{{article.fields.headline}}</a>
-                        <button mat-button routerLink="/search/related" [queryParams]="{id: article.fields.documentid}" style="float: right">Related</button>
+                        <button fxHide fxShow.gt-sm mat-button routerLink="/search/related" [queryParams]="{id: article.fields.documentid}" style="float: right">Related</button>
                     </mat-card-title>
                     <mat-card-subtitle>{{article.fields.source}}, Published: {{article.fields.firstpubtime * 1000 | date
                         : 'd/M/yy, h:mm a'}}
@@ -36,6 +36,9 @@
                           </svg></a>
                     </div>
                 </mat-card-content>
+                <mat-card-footer>
+                    <button class="footer-button" fxHide fxShow.lt-sm mat-button routerLink="/search/related" [queryParams]="{id: article.fields.documentid}">Related</button>
+                </mat-card-footer>
             </mat-card>
         </div>
     </div>
