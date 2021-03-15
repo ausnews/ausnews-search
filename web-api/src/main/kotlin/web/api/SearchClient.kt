@@ -32,6 +32,7 @@ interface SearchClient {
     @Get("/search/")
     public fun related(@QueryValue id: String,
                        @QueryValue("presentation.timing") timing: String = "true",
+                       @QueryValue timeout: String = "5s",
                        @QueryValue searchChain: String = "related"): SearchResponse
 
     // ?presentation.timing=true&select=all(group(group_doc_id)++order(-count())+each(max(3)+each(output(summary()))))&hits=0&ranking.profile=twitter&yql=select+*+from+sources+newsarticle+WHERE+firstpubtime+%3E+1614311914+and+group_doc_id+matches+%22%5Eid%22%3B
