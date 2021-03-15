@@ -44,9 +44,11 @@ a:hover {
   text-align: left;
 }
 
+
 .footer-button {
-  margin-left: 15px;
-  margin-top: 5px;
+  margin-left: 32px;
+  margin-top: 0px;
+  margin-bottom: 8px
 }
 
 @media(max-width: 600px)

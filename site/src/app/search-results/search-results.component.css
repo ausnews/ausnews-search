@@ -8,7 +8,7 @@
 }
 
 .mat-card-content {
-  margin: 0 16px;
+  margin: 0 16px 16px 16px;
 }
 
 ::ng-deep .mat-card-header-text {
@@ -33,8 +33,9 @@ a:hover {
 }
 
 .footer-button {
-  margin-left: 15px;
-  margin-top: 5px;
+  margin-left: 32px;
+  margin-top: 0px;
+  margin-bottom: 8px
 }
 
 @media(max-width: 600px)
