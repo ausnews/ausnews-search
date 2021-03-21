@@ -26,15 +26,13 @@ class TwitterInserter:
         auth = tweepy.AppAuthHandler(api_key, api_secret)
         self.api = tweepy.API(auth)
         updated = 0
-        for userid in ['abcnews', 'GuardianAus', 'smh', 'iTnews_au', 'theage', 'canberratimes', 'zdnetaustralia', 'newscomauHQ', 'westaustralian', 'SBSNews', 'australian', 'crikey_news', '9NewsAUS']:
+        for userid in ['abcnews', 'GuardianAus', 'smh', 'iTnews_au', 'theage', 'canberratimes', 'zdnetaustralia', 'newscomauHQ', 'westaustralian', 'SBSNews', 'australian', 'crikey_news', '9NewsAUS', 'BBCNewsAus']:
             try:
                 for status in tweepy.Cursor(self.api.user_timeline, id=userid, include_entities=True, tweet_mode="extended").items(60):
                     if len(status.entities['urls']) == 0:
                         continue
                     url = status.entities['urls'][0]['expanded_url']
-                    if (re.match(r'https?://zd.net', url) or url.startswith("https://bit.ly")):
-                        url = urlopen(url).geturl()
-                    url = url.split('?')[0]
+                    url = self.get_url(url)
                     if (url.startswith("https://twitter.com") or url.startswith("https://www.reddit.com")):
                         continue
                     article = self.get_article(url)
@@ -44,11 +42,16 @@ class TwitterInserter:
 #                    else:
 #                        self.insert_document(url)
             except Exception as e:
-                print("fuck {}".format(e))
+                print("exception! {}".format(e))
                 continue
         print("Completed run, updated {} tweets".format(updated))
 
-
+    def get_url(self, url):
+        if (re.match(r'https?://zd.net', url) or url.startswith("https://trib.al") or url.startswith("https://bit.ly") or url.startswith("https://bbc.in")):
+            url = urlopen(url).geturl()
+            return self.get_url(url)
+        else:
+            return url.split('?')[0]
 #    def insert_document(self, url):
 #        payload = {'url': url }
 #        requests.get("http://localhost:8000/", params=payload)
@@ -64,7 +67,7 @@ class TwitterInserter:
             data_id = hashlib.sha256(article['fields']['url'].encode()).hexdigest(),
             fields = vespa_fields
         )
-        #print("Updated {} with {} {}: {}".format(article['fields']['url'], status.favorite_count, status.retweet_count, response))
+        print("Updated {} with {} {}: {}".format(article['fields']['url'], status.favorite_count, status.retweet_count, response))
 
     def get_article(self, url):
         article_time = time.time() - 24 * 60 * 60
