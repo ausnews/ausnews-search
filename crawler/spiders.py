@@ -10,6 +10,7 @@ from RISJbot.spiders.theage import TheAgeSpider
 from RISJbot.spiders.thewest import TheWestSpider
 from RISJbot.spiders.itnews import ITNewsSpider
 from RISJbot.spiders.sbs import SBSSpider
+from RISJbot.spiders.bbcau import BBCAUSpider
 from RISJbot.spiders.crikey import CrikeySpider
 from RISJbot.spiders.theaustralian import TheAustralianSpider
 from RISJbot.spiders.ninenews import NineNewsSpider
@@ -25,6 +26,7 @@ logger.disabled = True
 logger.propagate = False
 configure_logging(install_root_handler=True)
 logging.disable(50)  # CRITICAL = 50
+process.crawl(BBCAUSpider)
 process.crawl(ZDNetSpider)
 process.crawl(ABCAUSpider)
 process.crawl(GuardianSpider)
