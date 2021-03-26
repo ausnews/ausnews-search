@@ -7,7 +7,9 @@
         </mat-form-field>
         <button mat-stroked-button color="accent" aria-label="Search" routerLink="/search"
           [queryParams]="{q: query, b: bylines, s: source, r: range.value.start != null ? range.value.start.getTime() : '', e: range.value.end ? range.value.end.getTime() : ''}"
-          style="margin-right: 10px">
+          style="margin-right: 10px"
+          (click)="accordionOpened && toggleAccordion()"
+          >
           Search
         </button>
         <button mat-button (click)="toggleAccordion()">Options</button>
