@@ -14,7 +14,7 @@ AUSNews search is a high performance, open-source search engine indexing some Au
 - Search [web-api](./web-api/). This is a (currently) simple user-facing API that interacts with and abstracts the vespa application backend. A simple micronaut/kotlin application.
 - [Frontend site](./site/). A [Material Angular](https://material.angular.io) application for the browser UI.
 - [Augmenter](./augmenter). Send extra signals about documents. Currently just twitter stats for each story. This is helpful for the "Top News" section.
-- Infrastructure: Spiders, Search, Augmenter and the Web API are all deployed to GKE. Each folder has a subfolder deployment/ containing kubernetes yaml. Github workflows run per-directory to re-deploy each component when commits to master are made. The site can be run locally or on any static hosting service - on commit the page is pushed to the github pages repo.
+- Infrastructure: Spiders, Search, Augmenter and the Web API are all deployed to a kubernetes cluster. Each folder has a subfolder deployment/ containing kubernetes yaml. Github workflows run per-directory to re-deploy each component when commits to master are made. The site can be run locally or on any static hosting service - on commit the page is pushed to the github pages repo.
 
 ## Search Engine
 
@@ -78,7 +78,7 @@ Percentage of the requests served within a certain time (ms)
  ```
 
 ## Architecture
-The entire application is deployed to GKE and the set of applications and deployment can be reproduced.
+The entire application is deployed to kubernetes and the set of applications and deployment can be reproduced.
 
 ```
                   ┌─────────┐             ┌─────────────┐

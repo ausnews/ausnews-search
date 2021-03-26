@@ -49,6 +49,7 @@ class ITNewsSpider(NewsRSSFeedSpider):
         l.add_xpath('bodytext', '//*[@id="content"]/div/article/section//text()')
         l.add_xpath('keywords',
                        'head/meta[@property="keywords"]/@content')
+        l.add_value('bylines', re.split(", | and ", response.xpath('(//span[@itemprop="author"]/span[@itemprop="name"]//text())[1]').get()))
         # Add a number of items of data that should be standardised across
         # providers. Can override these (for TakeFirst() fields) by making
         # l.add_* calls above this line, or supplement gaps by making them
