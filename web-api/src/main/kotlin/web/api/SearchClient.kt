@@ -39,7 +39,7 @@ interface SearchClient {
     @Get("/search/")
     public fun topics(
         @QueryValue yql: String = "select * from sources newsarticle WHERE group_doc_id matches \"^id\";",
-        @QueryValue select: String = "all(group(group_doc_id) max(15) order(-avg(relevance())) each(output(count()) max(3) each(output(summary()))))",
+        @QueryValue select: String = "all(group(group_doc_id) max(15) order(-avg(relevance())) each(output(count()) max(3) precision(15) each(output(summary()))))",
         @QueryValue("presentation.timing") timing: String = "true",
         @QueryValue hits: String = "0",
         @QueryValue("ranking.profile") ranking: String = "top_news"): SearchResponse
