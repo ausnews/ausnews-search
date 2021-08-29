@@ -4,6 +4,7 @@ textblob==0.15.3
 pronouncing==0.2.0
 #nltk==3.2.2
 #numpy==1.12.1 # Requirement of some pickled data we use from nltk
+Scrapy==2.4.1
 scrapy-dotpersistence==0.3.0
 scrapy-splash==0.7.2
 readability-lxml==0.8.1
