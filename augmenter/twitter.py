@@ -16,7 +16,7 @@ class TwitterInserter:
         api_key = os.getenv('TWITTER_API_KEY')
         api_secret = os.getenv('TWITTER_API_SECRET')
         self.vespa = Vespa(url = "http://vespa-search", port = 8080)
-        print("api key {}".format(api_key))
+        print("api key '{}' secret '{}'".format(api_key, api_secret))
         auth = tweepy.AppAuthHandler(api_key, api_secret)
         self.api = tweepy.API(auth)
         updated = 0
