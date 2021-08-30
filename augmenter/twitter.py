@@ -6,22 +6,15 @@ import hashlib
 from urllib.request import urlopen
 import requests
 import re
-from kubernetes import client, config
-import base64
+import os
 
 logger = logging.getLogger(__name__)
 
 class TwitterInserter:
     
     def run(self):
-        try:
-            config.load_incluster_config()
-        except:
-            config.load_kube_config()
-        v1 = client.CoreV1Api()
-        twitter_secrets = v1.read_namespaced_secret(name='twitter-secrets', namespace='default').data
-        api_key = base64.b64decode(twitter_secrets["api-key"]).decode('utf-8')
-        api_secret = base64.b64decode(twitter_secrets["api-secret"]).decode('utf-8')
+        api_key = os.getenv('TWITTER_API_KEY')
+        api_secret = os.getenv('TWITTER_API_SECRET')
         self.vespa = Vespa(url = "http://vespa-search", port = 8080)
         auth = tweepy.AppAuthHandler(api_key, api_secret)
         self.api = tweepy.API(auth)

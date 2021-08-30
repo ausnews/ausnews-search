@@ -17,6 +17,17 @@ spec:
       containers:
       - name: augmenter
         image: aunews-augmenter
+        env:
+          - name: TWITTER_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: twitter-secrets
+                key: api-key
+          - name: TWITTER_API_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: twitter-secrets
+                key: api-secret
         imagePullPolicy: Always
         resources:
             requests:
