@@ -1,0 +1,92 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: search-ingress
+  namespace: default
+  selfLink: /apis/extensions/v1beta1/namespaces/default/ingresses/search-ingress
+  uid: 34a498f4-e154-4614-a68a-57d3a0351db3
+  resourceVersion: '2995086'
+  generation: 3
+  creationTimestamp: '2021-03-04T02:02:16Z'
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubectl.kubernetes.io/last-applied-configuration: >
+      {"apiVersion":"extensions/v1beta1","kind":"Ingress","metadata":{"annotations":{"cert-manager.io/cluster-issuer":"letsencrypt-prod","kubernetes.io/ingress.class":"nginx","nginx.ingress.kubernetes.io/configuration-snippet":"if
+      ($host = 'ausnews.org' ) {\n  rewrite ^ https://www.$request_uri
+      permanent;\n}\n","nginx.ingress.kubernetes.io/from-to-www-redirect":"true"},"creationTimestamp":"2021-03-04T02:02:16Z","generation":3,"managedFields":[{"apiVersion":"networking.k8s.io/v1beta1","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:annotations":{".":{},"f:cert-manager.io/cluster-issuer":{},"f:kubernetes.io/ingress.class":{}}}},"manager":"kubectl","operation":"Update","time":"2021-03-04T02:02:16Z"},{"apiVersion":"networking.k8s.io/v1beta1","fieldsType":"FieldsV1","fieldsV1":{"f:status":{"f:loadBalancer":{"f:ingress":{}}}},"manager":"nginx-ingress-controller","operation":"Update","time":"2021-03-04T02:02:35Z"},{"apiVersion":"networking.k8s.io/v1beta1","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:tls":{}}},"manager":"kubectl-client-side-apply","operation":"Update","time":"2021-03-24T09:12:58Z"},{"apiVersion":"extensions/v1beta1","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:annotations":{"f:kubectl.kubernetes.io/last-applied-configuration":{},"f:nginx.ingress.kubernetes.io/from-to-www-redirect":{}}},"f:spec":{"f:rules":{}}},"manager":"kubectl-client-side-apply","operation":"Update","time":"2021-03-24T09:30:07Z"}],"name":"search-ingress","namespace":"default","resourceVersion":"2994812","selfLink":"/apis/extensions/v1beta1/namespaces/default/ingresses/search-ingress","uid":"34a498f4-e154-4614-a68a-57d3a0351db3"},"spec":{"rules":[{"host":"s.ausnews.org","http":{"paths":[{"backend":{"serviceName":"web-api-service","servicePort":80},"pathType":"ImplementationSpecific"}]}},{"host":"m.ausnews.org","http":{"paths":[{"backend":{"serviceName":"monitoring-service","servicePort":80},"pathType":"ImplementationSpecific"}]}},{"host":"ausnews.org"}],"tls":[{"hosts":["s.ausnews.org","m.ausnews.org","ausnews.org"],"secretName":"ausnews-tls"}]},"status":{"loadBalancer":{"ingress":[{"ip":"172.105.164.53"}]}}}
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($host = 'ausnews.org' ) {
+        rewrite ^ https://www.ausnews.org permanent;
+      }
+    nginx.ingress.kubernetes.io/from-to-www-redirect: 'true'
+  managedFields:
+    - manager: kubectl
+      operation: Update
+      apiVersion: networking.k8s.io/v1beta1
+      time: '2021-03-04T02:02:16Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:cert-manager.io/cluster-issuer': {}
+            'f:kubernetes.io/ingress.class': {}
+    - manager: nginx-ingress-controller
+      operation: Update
+      apiVersion: networking.k8s.io/v1beta1
+      time: '2021-03-04T02:02:35Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:loadBalancer':
+            'f:ingress': {}
+    - manager: kubectl-client-side-apply
+      operation: Update
+      apiVersion: networking.k8s.io/v1beta1
+      time: '2021-03-24T09:12:58Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          'f:tls': {}
+    - manager: kubectl-client-side-apply
+      operation: Update
+      apiVersion: extensions/v1beta1
+      time: '2021-03-24T09:32:47Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:kubectl.kubernetes.io/last-applied-configuration': {}
+            'f:nginx.ingress.kubernetes.io/configuration-snippet': {}
+            'f:nginx.ingress.kubernetes.io/from-to-www-redirect': {}
+        'f:spec':
+          'f:rules': {}
+spec:
+  tls:
+    - hosts:
+        - s.ausnews.org
+        - m.ausnews.org
+        - ausnews.org
+      secretName: ausnews-tls
+  rules:
+    - host: s.ausnews.org
+      http:
+        paths:
+          - pathType: ImplementationSpecific
+            backend:
+              serviceName: web-api-service
+              servicePort: 80
+    - host: m.ausnews.org
+      http:
+        paths:
+          - pathType: ImplementationSpecific
+            backend:
+              serviceName: monitoring-service
+              servicePort: 80
+    - host: ausnews.org
+status:
+  loadBalancer:
+    ingress:
+      - ip: 172.105.164.53
+
