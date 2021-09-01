@@ -27,11 +27,11 @@
             </config>
 
         </search>
-        <!-- <document-processing>
-            <chain id="default">
+        <document-processing>
+            <!--<chain id="default">
                 <documentprocessor id="org.ausnews.search.processor.ArticleProcessor" bundle="ausnews-search"/>
-            </chain>
-        </document-processing> -->
+            </chain>-->
+        </document-processing>
 
         <!-- <component id="com.yahoo.language.simple.SimpleLinguistics"/> -->
 
