@@ -7,6 +7,7 @@ from urllib.request import urlopen
 import requests
 import re
 import os
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +17,6 @@ class TwitterInserter:
         api_key = os.getenv('TWITTER_API_KEY')
         api_secret = os.getenv('TWITTER_API_SECRET')
         self.vespa = Vespa(url = "http://vespa-search", port = 8080)
-        print("api key '{}' secret '{}'".format(api_key, api_secret))
         auth = tweepy.AppAuthHandler(api_key, api_secret)
         self.api = tweepy.API(auth)
         updated = 0
@@ -75,6 +75,7 @@ class TwitterInserter:
             return results.hits[0]
 
 while True:
+    print("Starting run at {}".format(datetime.now()))
     a = TwitterInserter()
     a.run()
     time.sleep(300)
